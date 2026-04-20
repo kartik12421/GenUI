@@ -1,3 +1,5 @@
-export {Button} from "./components/button/Button.jsx";
+export {Button} from "./components/Button/Button.jsx";
 
-export {Card} from "./components/card/Card.jsx";
+export {Card} from "./components/Card/Card.jsx";
+
+export {ProfileCard} from "./components/ProfileCard/ProfileCard.jsx";

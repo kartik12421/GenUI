@@ -30,75 +30,101 @@ var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: tru
 var index_exports = {};
 __export(index_exports, {
   Button: () => Button,
-  Card: () => Card
+  Card: () => Card,
+  ProfileCard: () => ProfileCard
 });
 module.exports = __toCommonJS(index_exports);
 
-// src/components/button/Button.jsx
+// src/components/Button/Button.jsx
 var import_react = __toESM(require("react"));
 var Button = ({
   label = "Click Me",
   onClick = () => {
   },
-  color = "#0f0f0f",
-  textColor = "#ffffff",
-  size = "md",
   variant = "solid",
+  // solid | outline | ghost | soft
+  color = "primary",
+  // primary | danger | success | warning | neutral
+  size = "md",
   disabled = false,
+  loading = false,
+  fullWidth = false,
   icon = null
 }) => {
   const [hovered, setHovered] = (0, import_react.useState)(false);
   const [pressed, setPressed] = (0, import_react.useState)(false);
-  const sizes = {
-    sm: { padding: "8px 18px", fontSize: "13px", borderRadius: "8px" },
-    md: { padding: "12px 28px", fontSize: "15px", borderRadius: "10px" },
-    lg: { padding: "16px 40px", fontSize: "17px", borderRadius: "12px" }
+  const colors = {
+    primary: { base: "#111", text: "#fff" },
+    danger: { base: "#e63946", text: "#fff" },
+    success: { base: "#2a9d8f", text: "#fff" },
+    warning: { base: "#f4a261", text: "#000" },
+    neutral: { base: "#6c757d", text: "#fff" }
   };
-  const { padding, fontSize, borderRadius } = sizes[size] || sizes.md;
-  const baseStyle = {
+  const c = colors[color] || colors.primary;
+  const sizes = {
+    sm: { padding: "8px 16px", fontSize: 13, radius: 8 },
+    md: { padding: "12px 24px", fontSize: 15, radius: 10 },
+    lg: { padding: "16px 36px", fontSize: 17, radius: 12 }
+  };
+  const s = sizes[size];
+  const variants = {
+    solid: {
+      bg: c.base,
+      text: c.text,
+      border: "none"
+    },
+    outline: {
+      bg: "transparent",
+      text: c.base,
+      border: `2px solid ${c.base}`
+    },
+    ghost: {
+      bg: "transparent",
+      text: c.base,
+      border: "none"
+    },
+    soft: {
+      bg: c.base + "20",
+      text: c.base,
+      border: "none"
+    }
+  };
+  const v = variants[variant];
+  const style = {
     display: "inline-flex",
     alignItems: "center",
-    gap: "8px",
-    padding,
-    fontSize,
-    fontFamily: "'DM Sans', sans-serif",
+    justifyContent: "center",
+    gap: 8,
+    width: fullWidth ? "100%" : "auto",
+    padding: s.padding,
+    fontSize: s.fontSize,
+    borderRadius: s.radius,
     fontWeight: 600,
-    letterSpacing: "0.01em",
-    borderRadius,
-    border: variant === "outline" ? `2px solid ${color}` : "none",
+    fontFamily: "'DM Sans', sans-serif",
+    background: v.bg,
+    color: v.text,
+    border: v.border,
     cursor: disabled ? "not-allowed" : "pointer",
-    outline: "none",
-    userSelect: "none",
-    transition: "all 0.18s cubic-bezier(0.34, 1.56, 0.64, 1)",
-    opacity: disabled ? 0.45 : 1,
-    position: "relative",
-    overflow: "hidden",
-    boxShadow: variant === "solid" && !disabled ? hovered ? `0 8px 24px ${color}55, 0 2px 8px ${color}33` : `0 2px 8px ${color}22` : "none",
-    transform: pressed ? "scale(0.96) translateY(1px)" : hovered && !disabled ? "scale(1.03) translateY(-1px)" : "scale(1) translateY(0)",
-    backgroundColor: variant === "solid" ? hovered && !disabled ? color + "dd" : color : hovered && !disabled ? color + "15" : "transparent",
-    color: variant === "solid" ? textColor : color
+    opacity: disabled ? 0.5 : 1,
+    transform: pressed ? "scale(0.96)" : hovered && !disabled ? "scale(1.04)" : "scale(1)",
+    boxShadow: variant === "solid" && !disabled ? hovered ? `0 10px 25px ${c.base}55` : `0 4px 10px ${c.base}33` : "none",
+    transition: "all 0.18s ease",
+    position: "relative"
   };
-  const shimStyle = {
+  const shim = {
     position: "absolute",
     top: 0,
-    left: hovered && !disabled ? "110%" : "-60%",
+    left: hovered && !disabled ? "120%" : "-60%",
     width: "50%",
     height: "100%",
-    background: "linear-gradient(120deg, transparent 0%, rgba(255,255,255,0.18) 50%, transparent 100%)",
-    transition: "left 0.45s ease",
-    pointerEvents: "none"
+    background: "linear-gradient(120deg, transparent, rgba(255,255,255,0.2), transparent)",
+    transition: "left 0.4s ease"
   };
-  return /* @__PURE__ */ import_react.default.createElement(import_react.default.Fragment, null, /* @__PURE__ */ import_react.default.createElement(
-    "link",
-    {
-      href: "https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;600;700&display=swap",
-      rel: "stylesheet"
-    }
-  ), /* @__PURE__ */ import_react.default.createElement(
+  return /* @__PURE__ */ import_react.default.createElement(
     "button",
     {
-      style: baseStyle,
-      onClick: !disabled ? onClick : void 0,
+      style,
+      onClick: !disabled && !loading ? onClick : void 0,
       onMouseEnter: () => !disabled && setHovered(true),
       onMouseLeave: () => {
         setHovered(false);
@@ -106,124 +132,370 @@ var Button = ({
       },
       onMouseDown: () => !disabled && setPressed(true),
       onMouseUp: () => setPressed(false),
-      disabled,
-      "aria-disabled": disabled
+      disabled: disabled || loading
     },
-    /* @__PURE__ */ import_react.default.createElement("span", { style: shimStyle }),
-    icon && /* @__PURE__ */ import_react.default.createElement("span", { style: { display: "flex", alignItems: "center" } }, icon),
-    label
-  ));
+    /* @__PURE__ */ import_react.default.createElement("span", { style: shim }),
+    loading ? /* @__PURE__ */ import_react.default.createElement("span", { style: { fontSize: 12 } }, "Loading...") : /* @__PURE__ */ import_react.default.createElement(import_react.default.Fragment, null, icon && /* @__PURE__ */ import_react.default.createElement("span", null, icon), label)
+  );
 };
 
-// src/components/card/Card.jsx
+// src/components/Card/Card.jsx
 var import_react2 = __toESM(require("react"));
 var Card = ({
-  title = "",
-  description = "",
-  footer = null,
-  image = null,
-  imagePlaceholder = null,
-  badge = null,
-  badgeColor = "#e8f0fe",
-  badgeTextColor = "#1a56db",
-  avatar = null,
-  avatarBg = "#e8f0fe",
-  avatarColor = "#1a56db",
-  role = "",
-  stats = null,
-  horizontal = false,
-  aside = null,
-  asideBg = "#f0fdf4",
-  onClick = null,
-  width = 220,
-  variant = "default"
+  subtitle = "Subtitle",
+  title = "Card Title",
+  description = "Description",
+  tag = null,
+  disabled = false,
+  selectable = false,
+  onSelect = () => {
+  },
+  showActions = false,
+  variant = "default",
+  // default | outlined | elevated | ghost | filled
+  color = "blue",
+  // blue | red | green | yellow | gray
+  size = "md",
+  // sm | md | lg
+  width = 260
 }) => {
   const [hovered, setHovered] = (0, import_react2.useState)(false);
-  const base = {
-    background: "#ffffff",
-    border: hovered ? "0.5px solid #aaa" : "0.5px solid #e0e0e0",
-    borderRadius: 12,
-    overflow: "hidden",
-    transition: "transform 0.18s cubic-bezier(0.34,1.56,0.64,1), border-color 0.15s ease",
-    transform: hovered ? "translateY(-3px)" : "translateY(0)",
-    cursor: onClick ? "pointer" : "default",
-    width: horizontal ? "100%" : width,
-    display: horizontal ? "flex" : "block",
-    maxWidth: horizontal ? 420 : void 0,
-    fontFamily: "system-ui, sans-serif"
+  const [pressed, setPressed] = (0, import_react2.useState)(false);
+  const [selected, setSelected] = (0, import_react2.useState)(false);
+  const [liked, setLiked] = (0, import_react2.useState)(false);
+  const [bookmarked, setBookmarked] = (0, import_react2.useState)(false);
+  const sizes = {
+    sm: { padding: "1rem", title: 14, desc: 12 },
+    md: { padding: "1.5rem", title: 18, desc: 13 },
+    lg: { padding: "2rem", title: 22, desc: 15 }
   };
-  const bodyStyle = {
-    padding: variant === "profile" ? "1.5rem 1.25rem" : "1.1rem 1.25rem",
-    textAlign: variant === "profile" ? "center" : "left",
-    flex: horizontal ? 1 : void 0
+  const currentSize = sizes[size];
+  const colors = {
+    blue: {
+      bg: "#1a56db",
+      text: "#ffffff",
+      border: "#1a56db"
+    },
+    red: {
+      bg: "#e63946",
+      text: "#ffffff",
+      border: "#e63946"
+    },
+    green: {
+      bg: "#2a9d8f",
+      text: "#ffffff",
+      border: "#2a9d8f"
+    },
+    yellow: {
+      bg: "#f4a261",
+      text: "#000000",
+      border: "#f4a261"
+    },
+    gray: {
+      bg: "#f1f1f1",
+      text: "#111111",
+      border: "#dddddd"
+    }
   };
-  const titleStyle = {
-    fontSize: 15,
-    fontWeight: 500,
-    color: "#111",
+  const currentColor = colors[color] || colors.blue;
+  const variants = {
+    default: {
+      bg: "#ffffff",
+      border: "0.5px solid #e0e0e0",
+      text: "#111",
+      shadow: "none"
+    },
+    outlined: {
+      bg: "transparent",
+      border: `1px solid ${currentColor.border}`,
+      text: currentColor.border,
+      shadow: "none"
+    },
+    elevated: {
+      bg: "#ffffff",
+      border: "none",
+      text: "#111",
+      shadow: "0 8px 20px rgba(0,0,0,0.08)"
+    },
+    ghost: {
+      bg: "transparent",
+      border: "none",
+      text: "#111",
+      shadow: "none"
+    },
+    filled: {
+      bg: currentColor.bg,
+      border: `1px solid ${currentColor.border}`,
+      text: currentColor.text,
+      shadow: "none"
+    }
+  };
+  const currentVariant = variants[variant];
+  const handleClick = () => {
+    if (disabled) return;
+    if (selectable) {
+      setSelected((s) => !s);
+      onSelect(!selected);
+    }
+  };
+  const cardStyle = {
+    background: currentVariant.bg,
+    color: currentVariant.text,
+    border: selected ? "2px solid #000" : hovered ? "1px solid #aaa" : currentVariant.border,
+    boxShadow: variant === "elevated" ? hovered ? "0 12px 30px rgba(0,0,0,0.12)" : currentVariant.shadow : "none",
+    borderRadius: 16,
+    padding: currentSize.padding,
+    width,
+    fontFamily: "monospace",
+    cursor: selectable && !disabled ? "pointer" : "default",
+    transform: pressed ? "scale(0.97)" : hovered && !disabled ? "translateY(-4px)" : "none",
+    opacity: disabled ? 0.4 : 1,
+    transition: "all 0.2s ease"
+  };
+  const subtitleStyle = {
+    fontSize: 11,
+    opacity: 0.7,
     marginBottom: 6
   };
+  const titleStyle = {
+    fontSize: currentSize.title,
+    margin: "6px 0",
+    fontWeight: 500
+  };
   const descStyle = {
-    fontSize: 13,
-    color: "#666",
+    fontSize: currentSize.desc,
+    opacity: 0.85,
     lineHeight: 1.6
   };
   const footerStyle = {
-    padding: "0.7rem 1.25rem",
-    borderTop: "0.5px solid #e0e0e0",
+    marginTop: "1rem",
     display: "flex",
-    alignItems: "center",
-    justifyContent: "space-between"
+    justifyContent: "space-between",
+    alignItems: "center"
   };
-  const avatarStyle = {
-    width: 52,
-    height: 52,
-    borderRadius: "50%",
-    background: avatarBg,
-    color: avatarColor,
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-    fontWeight: 500,
-    fontSize: 18,
-    margin: "0 auto 12px"
-  };
-  const badgeStyle = {
-    display: "inline-block",
+  const tagStyle = {
     fontSize: 11,
-    fontWeight: 500,
-    padding: "3px 10px",
-    borderRadius: 99,
-    marginTop: 10,
-    background: badgeColor,
-    color: badgeTextColor
+    padding: "4px 10px",
+    borderRadius: 20,
+    background: variant === "filled" ? "rgba(255,255,255,0.2)" : "#eee"
   };
-  const asideStyle = {
-    width: 80,
-    minHeight: 80,
-    background: asideBg,
+  const iconBtn = (active, color2) => ({
+    width: 28,
+    height: 28,
+    borderRadius: 8,
+    border: "1px solid #ddd",
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
-    flexShrink: 0
-  };
+    cursor: "pointer",
+    color: active ? color2 : "#888",
+    background: "#f5f5f5"
+  });
   return /* @__PURE__ */ import_react2.default.createElement(
     "div",
     {
-      style: base,
-      onMouseEnter: () => setHovered(true),
-      onMouseLeave: () => setHovered(false),
-      onClick
+      style: cardStyle,
+      onClick: handleClick,
+      onMouseEnter: () => !disabled && setHovered(true),
+      onMouseLeave: () => {
+        setHovered(false);
+        setPressed(false);
+      },
+      onMouseDown: () => !disabled && setPressed(true),
+      onMouseUp: () => setPressed(false)
     },
-    horizontal && aside && /* @__PURE__ */ import_react2.default.createElement("div", { style: asideStyle }, aside),
-    !horizontal && image && /* @__PURE__ */ import_react2.default.createElement("img", { src: image, alt: title, style: { width: "100%", height: 110, objectFit: "cover", display: "block" } }),
-    !horizontal && imagePlaceholder && /* @__PURE__ */ import_react2.default.createElement("div", { style: { width: "100%", height: 110, background: "#f0f4ff", display: "flex", alignItems: "center", justifyContent: "center" } }, imagePlaceholder),
-    /* @__PURE__ */ import_react2.default.createElement("div", { style: bodyStyle }, variant === "profile" && avatar && /* @__PURE__ */ import_react2.default.createElement("div", { style: avatarStyle }, avatar), title && /* @__PURE__ */ import_react2.default.createElement("div", { style: titleStyle }, title), variant === "profile" && role && /* @__PURE__ */ import_react2.default.createElement("div", { style: { fontSize: 12, color: "#999", marginTop: 2 } }, role), description && /* @__PURE__ */ import_react2.default.createElement("div", { style: descStyle }, description), stats && /* @__PURE__ */ import_react2.default.createElement("div", null, /* @__PURE__ */ import_react2.default.createElement("div", { style: { fontSize: 26, fontWeight: 500, color: "#111", marginTop: 4 } }, stats.value), stats.delta && /* @__PURE__ */ import_react2.default.createElement("div", { style: { fontSize: 12, color: stats.deltaColor || "#16a34a", marginTop: 4 } }, stats.delta)), badge && /* @__PURE__ */ import_react2.default.createElement("div", { style: badgeStyle }, badge)),
-    footer && /* @__PURE__ */ import_react2.default.createElement("div", { style: footerStyle }, footer)
+    /* @__PURE__ */ import_react2.default.createElement("p", { style: subtitleStyle }, subtitle),
+    /* @__PURE__ */ import_react2.default.createElement("h2", { style: titleStyle }, title),
+    /* @__PURE__ */ import_react2.default.createElement("p", { style: descStyle }, description),
+    (tag || showActions) && /* @__PURE__ */ import_react2.default.createElement("div", { style: footerStyle }, tag && /* @__PURE__ */ import_react2.default.createElement("span", { style: tagStyle }, tag), showActions && /* @__PURE__ */ import_react2.default.createElement("div", { style: { display: "flex", gap: 6 } }, /* @__PURE__ */ import_react2.default.createElement(
+      "div",
+      {
+        style: iconBtn(bookmarked, "#1a56db"),
+        onClick: (e) => {
+          e.stopPropagation();
+          setBookmarked((b) => !b);
+        }
+      },
+      "\u{1F516}"
+    ), /* @__PURE__ */ import_react2.default.createElement(
+      "div",
+      {
+        style: iconBtn(liked, "#e63946"),
+        onClick: (e) => {
+          e.stopPropagation();
+          setLiked((l) => !l);
+        }
+      },
+      "\u2764\uFE0F"
+    )))
+  );
+};
+
+// src/components/ProfileCard/ProfileCard.jsx
+var import_react3 = __toESM(require("react"));
+var ProfileCard = ({
+  name = "John Doe",
+  role = "Web Developer",
+  bio = "Building modern Websites",
+  avatar = "https://i.pravatar.cc/150?img=12",
+  cover = null,
+  stats = [
+    { label: "Projects", value: 24 },
+    { label: "Followers", value: "1.2k" },
+    { label: "Following", value: 180 }
+  ],
+  variant = "elevated",
+  // default | outlined | elevated | filled
+  color = "primary",
+  // primary | danger | success | warning | neutral
+  size = "md",
+  selectable = false,
+  onSelect = () => {
+  },
+  style = {},
+  className = ""
+}) => {
+  const [hovered, setHovered] = (0, import_react3.useState)(false);
+  const [selected, setSelected] = (0, import_react3.useState)(false);
+  const [followed, setFollowed] = (0, import_react3.useState)(false);
+  const colors = {
+    primary: { base: "#111", text: "#fff" },
+    danger: { base: "#e63946", text: "#fff" },
+    success: { base: "#2a9d8f", text: "#fff" },
+    warning: { base: "#f4a261", text: "#000" },
+    neutral: { base: "#6c757d", text: "#fff" }
+  };
+  const c = colors[color];
+  const variants = {
+    default: {
+      bg: "#fff",
+      border: "1px solid #e0e0e0",
+      text: "#111",
+      shadow: "none"
+    },
+    outlined: {
+      bg: "transparent",
+      border: `1px solid ${c.base}`,
+      text: c.base,
+      shadow: "none"
+    },
+    elevated: {
+      bg: "#fff",
+      border: "none",
+      text: "#111",
+      shadow: "0 10px 30px rgba(0,0,0,0.08)"
+    },
+    filled: {
+      bg: c.base,
+      border: "none",
+      text: c.text,
+      shadow: "none"
+    }
+  };
+  const v = variants[variant];
+  const sizes = {
+    sm: {
+      pad: cover ? "80px 16px 20px" : "70px 16px 20px",
+      name: 16,
+      role: 12
+    },
+    md: {
+      pad: cover ? "90px 24px 28px" : "80px 24px 28px",
+      name: 20,
+      role: 13
+    },
+    lg: {
+      pad: cover ? "100px 28px 32px" : "90px 28px 32px",
+      name: 24,
+      role: 14
+    }
+  };
+  const s = sizes[size];
+  const handleClick = () => {
+    if (!selectable) return;
+    setSelected((prev) => !prev);
+    onSelect(!selected);
+  };
+  const secondaryText = variant === "filled" ? "rgba(255,255,255,0.85)" : "#666";
+  const cardStyle = {
+    width: 300,
+    borderRadius: 20,
+    background: v.bg,
+    color: v.text,
+    border: selected ? "2px solid #000" : v.border,
+    boxShadow: hovered ? "0 12px 35px rgba(0,0,0,0.12)" : v.shadow,
+    textAlign: "center",
+    position: "relative",
+    overflow: cover ? "hidden" : "visible",
+    cursor: selectable ? "pointer" : "default",
+    transition: "all 0.2s ease",
+    ...style
+  };
+  const avatarStyle = {
+    width: 90,
+    height: 90,
+    borderRadius: "50%",
+    objectFit: "cover",
+    position: "absolute",
+    top: cover ? 60 : 0,
+    left: "50%",
+    transform: cover ? "translateX(-50%)" : "translate(-50%, -50%)",
+    border: `4px solid ${v.bg}`
+  };
+  return /* @__PURE__ */ import_react3.default.createElement(
+    "div",
+    {
+      style: cardStyle,
+      className,
+      onClick: handleClick,
+      onMouseEnter: () => setHovered(true),
+      onMouseLeave: () => setHovered(false)
+    },
+    cover && /* @__PURE__ */ import_react3.default.createElement(
+      "div",
+      {
+        style: {
+          height: 120,
+          backgroundImage: `url(${cover})`,
+          backgroundSize: "cover",
+          backgroundPosition: "center"
+        }
+      }
+    ),
+    /* @__PURE__ */ import_react3.default.createElement("div", { style: { padding: s.pad } }, /* @__PURE__ */ import_react3.default.createElement("img", { src: avatar, alt: "avatar", style: avatarStyle }), /* @__PURE__ */ import_react3.default.createElement("h3", { style: { fontSize: s.name, margin: "10px 0 4px" } }, name), /* @__PURE__ */ import_react3.default.createElement("p", { style: { fontSize: s.role, color: secondaryText, margin: 0 } }, role), /* @__PURE__ */ import_react3.default.createElement("p", { style: { fontSize: 13, marginTop: 10, color: secondaryText } }, bio), /* @__PURE__ */ import_react3.default.createElement(
+      "div",
+      {
+        style: {
+          display: "flex",
+          justifyContent: "space-between",
+          marginTop: 20
+        }
+      },
+      stats.map((s2, i) => /* @__PURE__ */ import_react3.default.createElement("div", { key: i }, /* @__PURE__ */ import_react3.default.createElement("div", { style: { fontWeight: 600 } }, s2.value), /* @__PURE__ */ import_react3.default.createElement("div", { style: { fontSize: 11, color: secondaryText } }, s2.label)))
+    ), /* @__PURE__ */ import_react3.default.createElement(
+      "button",
+      {
+        style: {
+          marginTop: 20,
+          padding: "10px 22px",
+          borderRadius: 12,
+          border: "none",
+          cursor: "pointer",
+          background: followed ? "#ccc" : c.base,
+          color: followed ? "#111" : "#fff"
+        },
+        onClick: (e) => {
+          e.stopPropagation();
+          setFollowed((f) => !f);
+        }
+      },
+      followed ? "Following" : "Follow"
+    ))
   );
 };
 // Annotate the CommonJS export names for ESM import in node:
 0 && (module.exports = {
   Button,
-  Card
+  Card,
+  ProfileCard
 });

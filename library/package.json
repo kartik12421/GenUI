@@ -1,9 +1,11 @@
 {
-  "name": "library",
-  "version": "1.0.0",
+  "name": "genui-library",
+  "version": "1.0.3",
   "main": "dist/index.js",
   "module": "dist/index.mjs",
-  "files": ["dist"],
+  "files": [
+    "dist"
+  ],
   "scripts": {
     "build": "tsup"
   },
