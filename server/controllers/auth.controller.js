@@ -1,7 +1,7 @@
 import { genToken } from "../configs/token.js";
-import User from "../model/userModel.js";
+import User from "../models/userModel.js";
 
-export const googleSuth = async (req, res) => {
+export const googleAuth = async (req, res) => {
   try {
     const { name, email } = req.body;
     let user = await User.findOne({ email });
