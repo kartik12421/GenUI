@@ -1,12 +1,15 @@
-import React from 'react'
-import Auth from '../components/Auth.jsx'
+import React, { useState } from "react";
+import Auth from "../components/Auth.jsx";
 
 function Home() {
+  const [showAuth, setShowAuth] = useState(false);
   return (
-    <div className='text-9xl text-[red]'>
-      <Auth></Auth>
+    <div className="">
+      <button className="bg-black text-white p-4" onClick={() => { setShowAuth(true) }}>Open</button>
+
+      {showAuth && <Auth onClose={() => { setShowAuth(false) }}></Auth>}
     </div>
-  )
+  );
 }
 
-export default Home
+export default Home;
