@@ -2,8 +2,12 @@ import { useEffect, useState } from "react";
 import { AnimatePresence, easeInOut, motion } from "motion/react";
 import { TbCircleLetterGFilled } from "react-icons/tb";
 import { HiSparkles } from "react-icons/hi2";
-import { TbCopy, TbSettings, TbDownload, TbLogin2, TbX } from "react-icons/tb"; import { FcGoogle } from "react-icons/fc";
-
+import { TbCopy, TbSettings, TbDownload, TbLogin2, TbX } from "react-icons/tb";
+import { FcGoogle } from "react-icons/fc";
+import { auth, provider } from "../utils/firebase";
+import { signInWithPopup } from "firebase/auth";
+import axios from "axios";
+import { ServerUrl } from "../App";
 
 const steps = [
   {
@@ -51,6 +55,25 @@ function Auth({ onClose }) {
       window.clearInterval(id);
     };
   }, []);
+
+  const googleAuth = async () => {
+    try {
+      const response = await signInWithPopup(auth, provider);
+      let User = response.user;
+      const name = User.displayName;
+      const email = User.email;
+
+      const result = await axios.post(
+        ServerUrl + "/api/login/google",
+        { name, email },
+        { withCredentials: true },
+      );
+
+      console.log(result);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
     <AnimatePresence>
@@ -120,8 +143,12 @@ function Auth({ onClose }) {
                       <Icon size={20} />
                     </div>
                     <div>
-                      <p className="text-base font-semibold text-white">{item.title}</p>
-                      <p className="mt-1 text-sm leading-6 text-white/60">{item.desc}</p>
+                      <p className="text-base font-semibold text-white">
+                        {item.title}
+                      </p>
+                      <p className="mt-1 text-sm leading-6 text-white/60">
+                        {item.desc}
+                      </p>
                     </div>
                   </motion.div>
                 );
@@ -134,15 +161,17 @@ function Auth({ onClose }) {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.2, duration: 0.5 }}
-            className="sm:w-[48%] bg-[#040f12] px-8 sm:px-12 py-10 sm:py-14 flex flex-col justify-center items-center relative overflow-hidden">
+            className="sm:w-[48%] bg-[#040f12] px-8 sm:px-12 py-10 sm:py-14 flex flex-col justify-center items-center relative overflow-hidden"
+          >
             <div className="absolute inset-0 flex items-center justify-center bg-[linear-gradient(rgba(59,232,255,0.025)_1px,transparent_1px),linear-gradient(90deg,rgba(59,232,255,0.025)_1px,transparent_1px)] bg-size-[32px_32px]">
-
               <div className="relative z-10 w-full max-w-82 text-center mx-auto">
-
-
                 <motion.div
                   animate={{ y: [0, -10, 0] }}
-                  transition={{ duration: 3, repeat: Infinity, ease: easeInOut }}
+                  transition={{
+                    duration: 3,
+                    repeat: Infinity,
+                    ease: easeInOut,
+                  }}
                   className="relative w-16 h-16 sm:w-18 sm:h-18 rounded-2xl mx-auto mb-6 sm:mb-7 bg-linear-to-br from-[#3be8ff]/15 to-[#040f12] border border-[#3be8ff]/20"
                 >
                   <TbCircleLetterGFilled
@@ -151,41 +180,66 @@ function Auth({ onClose }) {
                     color="#3be8ff"
                   />
                 </motion.div>
-                <h3 className="text-3xl font-bold text-white tracking-tight mb-2" style={{ fontFamily: "'Syne', sans-serif" }}>welcome</h3>
-                <p className="text-[20px] text-[#96bec8]/55 leading-relaxed mb-6 sm:mb-7">Sign in to generate your AI powered components in seconds</p>
+                <h3
+                  className="text-3xl font-bold text-white tracking-tight mb-2"
+                  style={{ fontFamily: "'Syne', sans-serif" }}
+                >
+                  welcome
+                </h3>
+                <p className="text-[20px] text-[#96bec8]/55 leading-relaxed mb-6 sm:mb-7">
+                  Sign in to generate your AI powered components in seconds
+                </p>
 
                 <div className="flex justify-center gap-4 sm:gap-5 mb-10 sm:mb-10">
                   {stats.map(([v, l], i) => (
                     <div key={i} className="text-center">
-                      <div className="text-lg font-bold text-[#3be8ff]">{v}</div>
-                      <div className="text-[11px] text-[#9fd3dc]/70 uppercase tracking-wider font-medium">{l}</div>
+                      <div className="text-lg font-bold text-[#3be8ff]">
+                        {v}
+                      </div>
+                      <div className="text-[11px] text-[#9fd3dc]/70 uppercase tracking-wider font-medium">
+                        {l}
+                      </div>
                     </div>
                   ))}
-                  {active < 0 && (
-                    [["150", "Tokens"], ["∞", "Components"], ["JSX", "Ready"]].map(([v, l], i) => {
+                  {active < 0 &&
+                    [
+                      ["150", "Tokens"],
+                      ["∞", "Components"],
+                      ["JSX", "Ready"],
+                    ].map(([v, l], i) => {
                       return (
                         <div key={i} className="text-center">
-                          <div className="text-base font-bold text-[#3be8ff]">{v}</div>
+                          <div className="text-base font-bold text-[#3be8ff]">
+                            {v}
+                          </div>
 
-                          <div className="text-[19px] text-[#78aab4]/45 uppercase tracking-wider font-medium">{l}</div>
+                          <div className="text-[19px] text-[#78aab4]/45 uppercase tracking-wider font-medium">
+                            {l}
+                          </div>
                         </div>
                       );
-                    })
-                  )}
+                    })}
                 </div>
 
                 <motion.button
+                  onClick={googleAuth}
                   whileHover={{ y: -2, scale: 1.02 }}
                   whileTap={{ scale: 0.98 }}
-                  className="w-full flex items-center justify-center gap-2.5 py-3.5 rounded-xl bg-white text-[#0a1a1d] font-bold text-xl cursor-pointer border-none shadow-[0_4px_20px_rgba(0,0,0,0.3)] hover:shadow-[0_12px_40px_rgba(59,232,255,0.2)] transition-shadow">
+                  className="w-full flex items-center justify-center gap-2.5 py-3.5 rounded-xl bg-white text-[#0a1a1d] font-bold text-xl cursor-pointer border-none shadow-[0_4px_20px_rgba(0,0,0,0.3)] hover:shadow-[0_12px_40px_rgba(59,232,255,0.2)] transition-shadow"
+                >
                   <FcGoogle size={33} /> Continue with Google
                 </motion.button>
 
                 <p className="text-[17px] text-[#64919b]/89 mt-7 sm:mt-4">
-                  No accounts needed for npm. {" "} <span onClick={onClose} className="text-[#3be8ff] border-b border-[#3be8ff]/20 cursor-pointer hover:text-[#3be8ff]/80 transition-colors">View Docx...</span> </p>
-
+                  No accounts needed for npm.{" "}
+                  <span
+                    onClick={onClose}
+                    className="text-[#3be8ff] border-b border-[#3be8ff]/20 cursor-pointer hover:text-[#3be8ff]/80 transition-colors"
+                  >
+                    View Docx...
+                  </span>{" "}
+                </p>
               </div>
-
             </div>
           </motion.div>
         </motion.div>
