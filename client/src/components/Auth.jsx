@@ -8,6 +8,8 @@ import { auth, provider } from "../utils/firebase";
 import { signInWithPopup } from "firebase/auth";
 import axios from "axios";
 import { ServerUrl } from "../App";
+import { setUserData } from "../redux/userSlice";
+import { useDispatch } from "react-redux";
 
 const steps = [
   {
@@ -45,6 +47,7 @@ const stats = [
 
 function Auth({ onClose }) {
   const [active, setActive] = useState(0);
+  const dispatch = useDispatch();
 
   useEffect(() => {
     const id = window.setInterval(() => {
@@ -64,12 +67,12 @@ function Auth({ onClose }) {
       const email = User.email;
 
       const result = await axios.post(
-        ServerUrl + "/api/login/google",
+        ServerUrl + "/api/auth/google",
         { name, email },
         { withCredentials: true },
       );
-
-      console.log(result);
+      dispatch(setUserData(result.data));
+      onClose();
     } catch (error) {
       console.log(error);
     }
@@ -164,81 +167,79 @@ function Auth({ onClose }) {
             className="relative flex w-full flex-col items-center justify-center overflow-hidden bg-[#040f12] px-5 py-8 sm:px-8 sm:py-10 md:w-[48%] md:px-12 md:py-14"
           >
             <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(rgba(59,232,255,0.025)_1px,transparent_1px),linear-gradient(90deg,rgba(59,232,255,0.025)_1px,transparent_1px)] bg-size-[32px_32px]"></div>
-              <div className="relative z-10 w-full max-w-82 text-center mx-auto">
-                <motion.div
-                  animate={{ y: [0, -10, 0] }}
-                  transition={{
-                    duration: 3,
-                    repeat: Infinity,
-                    ease: easeInOut,
-                  }}
-                  className="relative mx-auto mb-5 h-14 w-14 rounded-2xl border border-[#3be8ff]/20 bg-linear-to-br from-[#3be8ff]/15 to-[#040f12] sm:mb-7 sm:h-18 sm:w-18"
-                >
-                  <TbCircleLetterGFilled
-                    className="absolute left-1/2 top-1/2 block -translate-x-1/2 -translate-y-1/2"
-                    size={36}
-                    color="#3be8ff"
-                  />
-                </motion.div>
-                <h3
-                  className="mb-2 text-2xl font-bold tracking-tight text-white sm:text-3xl"
-                  style={{ fontFamily: "'Syne', sans-serif" }}
-                >
-                  welcome
-                </h3>
-                <p className="mb-5 text-base leading-relaxed text-[#96bec8]/55 sm:mb-7 sm:text-[20px]">
-                  Sign in to generate your AI powered components in seconds
-                </p>
+            <div className="relative z-10 w-full max-w-82 text-center mx-auto">
+              <motion.div
+                animate={{ y: [0, -10, 0] }}
+                transition={{
+                  duration: 3,
+                  repeat: Infinity,
+                  ease: easeInOut,
+                }}
+                className="relative mx-auto mb-5 h-14 w-14 rounded-2xl border border-[#3be8ff]/20 bg-linear-to-br from-[#3be8ff]/15 to-[#040f12] sm:mb-7 sm:h-18 sm:w-18"
+              >
+                <TbCircleLetterGFilled
+                  className="absolute left-1/2 top-1/2 block -translate-x-1/2 -translate-y-1/2"
+                  size={36}
+                  color="#3be8ff"
+                />
+              </motion.div>
+              <h3
+                className="mb-2 text-2xl font-bold tracking-tight text-white sm:text-3xl"
+                style={{ fontFamily: "'Syne', sans-serif" }}
+              >
+                welcome
+              </h3>
+              <p className="mb-5 text-base leading-relaxed text-[#96bec8]/55 sm:mb-7 sm:text-[20px]">
+                Sign in to generate your AI powered components in seconds
+              </p>
 
-                <div className="mb-7 flex justify-center gap-3 sm:mb-10 sm:gap-5">
-                  {stats.map(([v, l], i) => (
-                    <div key={i} className="text-center">
-                      <div className="text-lg font-bold text-[#3be8ff]">
-                        {v}
-                      </div>
-                      <div className="text-[11px] text-[#9fd3dc]/70 uppercase tracking-wider font-medium">
-                        {l}
-                      </div>
+              <div className="mb-7 flex justify-center gap-3 sm:mb-10 sm:gap-5">
+                {stats.map(([v, l], i) => (
+                  <div key={i} className="text-center">
+                    <div className="text-lg font-bold text-[#3be8ff]">{v}</div>
+                    <div className="text-[11px] text-[#9fd3dc]/70 uppercase tracking-wider font-medium">
+                      {l}
                     </div>
-                  ))}
-                  {active < 0 &&
-                    [
-                      ["150", "Tokens"],
-                      ["∞", "Components"],
-                      ["JSX", "Ready"],
-                    ].map(([v, l], i) => {
-                      return (
-                        <div key={i} className="text-center">
-                          <div className="text-base font-bold text-[#3be8ff]">
-                            {v}
-                          </div>
-
-                          <div className="text-[19px] text-[#78aab4]/45 uppercase tracking-wider font-medium">
-                            {l}
-                          </div>
+                  </div>
+                ))}
+                {active < 0 &&
+                  [
+                    ["150", "Tokens"],
+                    ["∞", "Components"],
+                    ["JSX", "Ready"],
+                  ].map(([v, l], i) => {
+                    return (
+                      <div key={i} className="text-center">
+                        <div className="text-base font-bold text-[#3be8ff]">
+                          {v}
                         </div>
-                      );
-                    })}
-                </div>
 
-                <motion.button
-                  onClick={googleAuth}
-                  whileHover={{ y: -2, scale: 1.02 }}
-                  whileTap={{ scale: 0.98 }}
-                  className="flex w-full cursor-pointer items-center justify-center gap-2.5 rounded-xl border-none bg-white py-3 text-base font-bold text-[#0a1a1d] shadow-[0_4px_20px_rgba(0,0,0,0.3)] transition-shadow hover:shadow-[0_12px_40px_rgba(59,232,255,0.2)] sm:py-3.5 sm:text-xl"
+                        <div className="text-[19px] text-[#78aab4]/45 uppercase tracking-wider font-medium">
+                          {l}
+                        </div>
+                      </div>
+                    );
+                  })}
+              </div>
+
+              <motion.button
+                onClick={googleAuth}
+                whileHover={{ y: -2, scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
+                className="flex w-full cursor-pointer items-center justify-center gap-2.5 rounded-xl border-none bg-white py-3 text-base font-bold text-[#0a1a1d] shadow-[0_4px_20px_rgba(0,0,0,0.3)] transition-shadow hover:shadow-[0_12px_40px_rgba(59,232,255,0.2)] sm:py-3.5 sm:text-xl"
+              >
+                <FcGoogle size={33} /> Continue with Google
+              </motion.button>
+
+              <p className="mt-5 text-sm text-[#64919b]/89 sm:mt-4 sm:text-[17px]">
+                No accounts needed for npm.{" "}
+                <span
+                  onClick={onClose}
+                  className="text-[#3be8ff] border-b border-[#3be8ff]/20 cursor-pointer hover:text-[#3be8ff]/80 transition-colors"
                 >
-                  <FcGoogle size={33} /> Continue with Google
-                </motion.button>
-
-                <p className="mt-5 text-sm text-[#64919b]/89 sm:mt-4 sm:text-[17px]">
-                  No accounts needed for npm.{" "}
-                  <span
-                    onClick={onClose}
-                    className="text-[#3be8ff] border-b border-[#3be8ff]/20 cursor-pointer hover:text-[#3be8ff]/80 transition-colors"
-                  >
-                    View Docx...
-                  </span>{" "}
-                </p>
+                  View Docx...
+                </span>{" "}
+              </p>
             </div>
           </motion.div>
         </motion.div>

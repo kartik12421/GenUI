@@ -19,7 +19,7 @@ app.use(
 app.use(express.json());
 app.use(cookieParser());
 
-app.use("/api/login", authRouter);
+app.use("/api/auth", authRouter);
 app.use("/api/user", userRouter);
 
 const PORT = process.env.PORT;
