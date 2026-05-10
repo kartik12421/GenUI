@@ -141,7 +141,12 @@ function Home() {
             <div className="flex h-8 w-8 items-center justify-center rounded-xl bg-linear-to-br from-[#3be8ff] to-[#0ab5d4] shadow-[0_0_14px_rgba(59,232,255,0.4)]">
               <TbCircleLetterGFilled size={15} color="#051c20" />
             </div>
-            <span className="text-lg font-bold tracking-tight">GenUI</span>
+            <span
+              className="text-lg font-bold tracking-tight"
+              style={{ fontFamily: "'Syne', sans-serif" }}
+            >
+              GenUI
+            </span>
           </div>
 
           <div className="flex items-center gap-3">
@@ -494,7 +499,7 @@ function Home() {
           </h2>
         </motion.div>
 
-        <div className="relative grid grid-cols-2 lg-grid-cols-4 gap-6">
+        <div className="relative grid grid-cols-2 lg:grid-cols-4 gap-6">
           <div className="hidden lg:block absolute top-8 left-[12.5%] right-[12.5%] h-px bg-linear-to-r from-transparent via-[#3be8ff]/20 to-transparent" />
 
           {steps.map((items, i) => (
@@ -507,7 +512,7 @@ function Home() {
               transition={{ delay: i * 0.16, duration: 0.57 }}
             >
               <div className="relative w-14 h-14 sm:w-16 sm:h-16 mx-auto mb-4 sm:mb-5 rounded-2xl bg-linear-to-br from-[#0e2528] to-[#071518] border border-[#3be8ff]/20 flex items-center justify-center overflow-hidden group-hover:border-[#3be8ff]/40 group-hover:shadow-[0_0_20px_rgba(59,232,255,0.1)] transition-all duration-300">
-                <span className="absolute text-3xl sm:text-4xl text-[#3be8ff]/60 font-black tracking-tighter select-none">
+                <span className="absolute text-l sm:text-3xl text-[#3be8ff]/60 font-black tracking-tighter select-none">
                   {items.n}
                 </span>
               </div>
@@ -523,47 +528,118 @@ function Home() {
         </div>
       </section>
 
-
-
       <section className="max-w-5xl mx-auto px-4 sm:px-6 py-16 sm:py-24">
-
         <motion.div
-        initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.63 }}
-        className="relative rounded-2xl sm:rounded-3xl border border-[#3be8ff]/15 bg-linear-to-br from-[#071518] to-[#040f12] p-8 sm:p-14 text-center overflow-hidden">
+          className="relative rounded-2xl sm:rounded-3xl border border-[#3be8ff]/15 bg-linear-to-br from-[#071518] to-[#040f12] p-8 sm:p-14 text-center overflow-hidden"
+        >
+          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_50%_0%,rgba(59,232,255,0.08)_0%,transparent_60%)] pointer-events-none" />
 
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_50%_0%,rgba(59,232,255,0.08)_0%,transparent_60%)] pointer-events-none"/>
-        
+          <div className="relative z-10">
+            <p className="text-[10px] font-semibold tracking-[3px] uppercase text-[#3be8ff]/60 mb-3 sm:mb-4">
+              Start building
+            </p>
+            <h3
+              className="text-3xl sm:text-4xl font-bold tracking-tight mb-3 sm:mb-4"
+              style={{ fontFamily: "'Syne', sens-serif" }}
+            >
+              Ready to generate
+              <br />
+              your new components ?
+            </h3>
+
+            {userData ? (
+              <>
+                <p className="text-white/40 mb-7 sm:mb-8 text-sm max-w-md mx-auto leading-relaxed">
+                  Welcome back,{" "}
+                  <span className="text-[#3be8ff]/70">{userData.name}</span>!
+                  Continue building amazing components.
+                </p>
+                <div className="flex flex-col sm:flex-row justify-center gap-4">
+                  <motion.button
+                    whileHover={{ y: -2, scale: 1.05 }}
+                    whileTap={{ scale: 0.92 }}
+                    className="flex items-center justify-center gap-2 bg-[#3be8ff] text-[#030b0d] px-7 py-3.5 rounded-xl font-semibold text-sm cursor-pointer border-none shadow-[0_0_30px_rgba(59,232,255,0.3)] hover:shadow-[0_0_40px_rgba(59,232,255,0.45)] transition-shadow"
+                  >
+                    <HiSparkles size={14} />
+                    Generate AI Components
+                  </motion.button>
+                  <motion.button
+                    whileHover={{ y: -2 }}
+                    whileTap={{ scale: 0.92 }}
+                    className="flex items-center justify-center gap-2 px-7 py-3.5 border border-white/15 rounded-xl text-sm text-white/60 hover:text-white hover:border-white/25 transition-all cursor-pointer bg-transparent"
+                  >
+                    <TbComponents size={15} className="text-[#3be8ff]/70" /> My
+                    Components
+                  </motion.button>
+                </div>
+              </>
+            ) : (
+              <>
+                <p className="text-white/40 mb-7 sm:mb-8 text-sm max-w-md mz-auto leading-relaxed">
+                  Sign in with google and get 150 free AI credits, and start
+                  generating production-ready UI components instantly.
+                </p>
+
+                <div className="flex flex-col sm:flex-row justify-center gap-4">
+                  <motion.button
+                    onClick={() => setShowAuth(true)}
+                    whileHover={{ y: -2, scale: 1.05 }}
+                    whileTap={{ scale: 0.92 }}
+                    className="flex items-center justify-center gap-2 bg-[#3be8ff] text-[#030b0d] px-7 py-3.5 rounded-xl font-semibold text-sm cursor-pointer border-none shadow-[0_0_30px_rgba(59,232,255,0.3)] hover:shadow-[0_0_40px_rgba(59,232,255,0.45)] transition-shadow"
+                  >
+                    <HiSparkles size={14} />
+                    Get started for free
+                  </motion.button>
+                  <motion.button
+                    whileHover={{ y: -2 }}
+                    whileTap={{ scale: 0.92 }}
+                    className="flex items-center justify-center gap-2 px-7 py-3.5 border border-white/15 rounded-xl text-sm text-white/60 hover:text-white hover:border-white/25 transition-all cursor-pointer bg-transparent"
+                  >
+                    <TbComponents size={15} className="text-[#3be8ff]/70" />{" "}
+                    Components
+                  </motion.button>
+                </div>
+              </>
+            )}
+          </div>
         </motion.div>
-
-        <div className="relative z-10">
-
-          <p className="text-[10px] font-semibold tracking-[3px] uppercase text-[#3be8ff]/60 mb-3 sm:mb-4">
-
-          Start building
-          
-          </p>
-          <h3 className="text-3xl sm:text-4xl font-bold tracking-tight mb-3 sm:mb-4"></h3>
-
-        </div>
-
       </section>
 
+      <footer className="border-t border-white/5 py-8 sm:py-10">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 flex flex-col sm:flex-row items-center justify-between gap-4 sm:gap-0">
+          <div className="flex items-center gap-2.5">
+            <div className="flex items-center gap-2.5">
+              <div className="flex h-8 w-8 items-center justify-center rounded-xl bg-linear-to-br from-[#3be8ff] to-[#0ab5d4] shadow-[0_0_14px_rgba(59,232,255,0.4)]">
+                <TbCircleLetterGFilled size={15} color="#051c20" />
+              </div>
+              <span
+                className="text-lg font-bold tracking-tight"
+                style={{ fontFamily: "'Syne', sans-serif" }}
+              >
+                GenUI
+              </span>
+            </div>
+          </div>
 
+          <div className="flex flex-wrap justify-center gap-4 sm:gap-5 text-xs text-white/30">
+            <span className="hover:text-white/60 transition-color">
+              Components
+            </span>
+            <span className="hover:text-white/60 transition-color">
+              kartikjoshi842@gmail.com
+            </span>
+          </div>
+          <p className="text-xs text-white/25 order-last sm:order-0">
 
+        © {new Date().getFullYear()} GenUI. All rights reserved. 
 
-
-
-
-
-
-
-
-
-
-
+        </p>
+        </div>
+      </footer>
 
       {/* <button className="bg-black text-white p-4" onClick={() => { setShowAuth(true) }}>Open</button> */}
 
