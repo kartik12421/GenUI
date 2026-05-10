@@ -23,6 +23,62 @@ import { ServerUrl } from "../App.jsx";
 import { setUserData } from "../redux/userSlice.js";
 import { useNavigate } from "react-router-dom";
 
+const features = [
+  {
+    icon: TbLayout,
+    title: "Prebuilt UI Components",
+    text: "Install VirtualUI and use ready-made, production-grade components instantly.",
+  },
+  {
+    icon: HiSparkles,
+    title: "AI Component Generator",
+    text: "Describe your UI in plain English and generate React components in seconds.",
+  },
+  {
+    icon: TbAdjustments,
+    title: "Customizable Props",
+    text: "Modify component props and preview changes in real-time without rebuilding.",
+  },
+  {
+    icon: TbCode,
+    title: "Clean JSX Code",
+    text: "Copy production-ready JSX directly into your project — zero boilerplate.",
+  },
+  {
+    icon: TbBrandNpm,
+    title: "NPM Library",
+    text: "Import VirtualUI components with a simple npm install command.",
+  },
+  {
+    icon: TbPlayerPlay,
+    title: "Live Preview",
+    text: "Instantly preview AI-generated components before exporting your code.",
+  },
+];
+
+const steps = [
+  {
+    n: "01",
+    title: "Install Library",
+    text: "npm install genui-library to access all prebuilt UI components.",
+  },
+  {
+    n: "02",
+    title: "Use Components",
+    text: "Import and customize with props for any design requirement.",
+  },
+  {
+    n: "03",
+    title: "Generate with AI",
+    text: "Describe your UI and let AI build the component for you.",
+  },
+  {
+    n: "04",
+    title: "Copy & Use",
+    text: "Paste the clean JSX code straight into your project.",
+  },
+];
+
 function Home() {
   const [showAuth, setShowAuth] = useState(false);
   const { userData } = useSelector((state) => state.user);
@@ -304,25 +360,210 @@ function Home() {
               Generate AI Components
             </motion.button>
           </motion.div>
+        </motion.div>
 
-          <motion.div
-            initial={{ opacity: 0, y: 33 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.07, duration: 0.7 }}
-            className="mt-12 sm:mt-16 mx-auto max-w-2xl bg-[#0a1a1e]/80 border border-white/[0.07] rounded-2xl p-4 sm:p-5 text-left shadow-[0_30px_60px_rgba(0,0,0,0.4)] backdrop-blur-sm overflow-x-auto"
-          >
-            {/* mac style */}
-            <div className="flex items-center gap-1.5 mb-4">
-              <div className="w-2.5 h-2.5 rounded-full bg-[#ff5f57]" />
-              <div className="w-2.5 h-2.5 rounded-full bg-[#febc2e]" />
-              <div className="w-2.5 h-2.5 rounded-full bg-[#28c840]" />
-              <span className="ml-3 text-[11px] text-white/20 font-mono">
-                App.jsx
-              </span>
-            </div>
-          </motion.div>
+        <motion.div
+          initial={{ opacity: 0, y: 33 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.07, duration: 0.7 }}
+          className="mt-12 sm:mt-16 mx-auto max-w-2xl bg-[#0a1a1e]/80 border border-white/[0.07] rounded-2xl p-4 sm:p-5 text-left shadow-[0_30px_60px_rgba(0,0,0,0.4)] backdrop-blur-sm overflow-x-auto"
+        >
+          {/* mac style */}
+          <div className="flex items-center gap-1.5 mb-4">
+            <div className="w-2.5 h-2.5 rounded-full bg-[#ff5f57]" />
+            <div className="w-2.5 h-2.5 rounded-full bg-[#febc2e]" />
+            <div className="w-2.5 h-2.5 rounded-full bg-[#28c840]" />
+            <span className="ml-3 text-[11px] text-white/20 font-mono">
+              App.jsx
+            </span>
+          </div>
+
+          <div className="font-mono text-[11px] sm:text-[12.5px] leading-6 space-y-0.6 min-w-70">
+            <p>
+              <span className="text-[#3be8ff]/60">import </span>
+              <span className="text-white/80">{"{ Card, Button}"} </span>
+              <span className="text-[#3be8ff]/80">from </span>
+              <span className="text-[#aaff80]/70">genui-library</span>
+              <span className="text-white/30">;</span>
+            </p>
+            <p> </p>
+
+            <p>
+              <span className="text-[#3be8ff]/60">export default function</span>{" "}
+              <span className="text-[#ffd580]/80">App</span>
+              <span className="text-white/50">(){" {"}</span>
+            </p>
+
+            <p>
+              <span className="text-white/30">{" return ("}</span>
+            </p>
+
+            <p>
+              <span className="text-white/30">{"<"}</span>
+              <span className="text-[#3be8ff]/70">Card</span>{" "}
+              <span className="text-[#aaff80]/60">title</span>{" "}
+              <span className="text-white/30">{"="}</span>
+              <span className="text-[#aaff80]/70">{'"Dashboard"'}</span>
+              <span className="text-white/30">{">"}</span>
+            </p>
+
+            <p>
+              <span className="text-white/30">{"   <"}</span>
+              <span className="text-[#3be8ff]/70">Button</span>{" "}
+              <span className="text-[#aaff80]/60">text</span>{" "}
+              <span className="text-white/30">{"="}</span>
+              <span className="text-[#aaff80]/70">{'"hello"'}</span>
+              <span className="text-white/30">{" />"}</span>
+            </p>
+
+            <p>
+              <span className="text-white/30">{"  <"}</span>
+              <span className="text-[#3be8ff]/70">Card</span>
+              <span className="text-white/30">{" />"}</span>
+            </p>
+
+            <p>
+              <span className="text-white/30">{"  );"}</span>
+            </p>
+            <p>
+              <span className="text-white/50">{"}"}</span>
+            </p>
+          </div>
         </motion.div>
       </section>
+
+      <section className="max-w-6xl mx-auto px-4 sm:px-0 py-10 sm:py-24">
+        <motion.div
+          initial={{ opactity: 0, y: 14 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.57 }}
+          className="text-center mb-10 sm:mb-14"
+        >
+          <p className="text-[10px] font-semibold tracking-[3px] uppercase text-[#3be8ff]/60 mb-3">
+            What's inside
+          </p>
+          <h2
+            className="text-3xl sm:text-4xl font-bold tracking-tight"
+            style={{ fontFamily: "'Syne', sens-serif" }}
+          >
+            Everything you need
+          </h2>
+        </motion.div>
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+          {features.map((items, i) => (
+            <motion.div
+              key={i}
+              initial={{ opactity: 0, y: 21 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: i * 0.07, duration: 0.57 }}
+              className="group p-5 sm:p-6 rounded-2xl border border-white/[0.07] bg-white/2 hover:bg-[#3be8ff]/04 hover:border-[#3be8ff]/20 transition-all duration-300"
+            >
+              <div className="w-10 h-10 rounded-xl bg-[#3be8ff]/8 border border-[#3be8ff]/15 flex items-center justify-center mb-4 group-hover:bg-[#3be8ff]/15 transition-colors">
+                <items.icon size={18} className="text-[#3be8ff]" />
+              </div>
+              <h3 className="font-semibold text-white/90 text-[15px]">
+                {items.title}
+              </h3>
+              <p className="text-sm text-white/45 leading-relaxed">
+                {items.text}
+              </p>
+            </motion.div>
+          ))}
+        </div>
+      </section>
+
+      <section className="max-w-5xl mx-auto px-4 sm:px-6 py-16 sm:py-24">
+        <motion.div
+          initial={{ opactity: 0, y: 14 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.57 }}
+          className="text-center mb-10 sm:mb-14"
+        >
+          <p className="text-[10px] font-semibold tracking-[3px] uppercase text-[#3be8ff]/60 mb-3">
+            Simple process
+          </p>
+          <h2
+            className="text-3xl sm:text-4xl font-bold tracking-tight"
+            style={{ fontFamily: "'Syne', sens-serif" }}
+          >
+            how it works
+          </h2>
+        </motion.div>
+
+        <div className="relative grid grid-cols-2 lg-grid-cols-4 gap-6">
+          <div className="hidden lg:block absolute top-8 left-[12.5%] right-[12.5%] h-px bg-linear-to-r from-transparent via-[#3be8ff]/20 to-transparent" />
+
+          {steps.map((items, i) => (
+            <motion.div
+              key={i}
+              className="relative text-center group"
+              initial={{ opactity: 0, y: 21 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: i * 0.16, duration: 0.57 }}
+            >
+              <div className="relative w-14 h-14 sm:w-16 sm:h-16 mx-auto mb-4 sm:mb-5 rounded-2xl bg-linear-to-br from-[#0e2528] to-[#071518] border border-[#3be8ff]/20 flex items-center justify-center overflow-hidden group-hover:border-[#3be8ff]/40 group-hover:shadow-[0_0_20px_rgba(59,232,255,0.1)] transition-all duration-300">
+                <span className="absolute text-3xl sm:text-4xl text-[#3be8ff]/60 font-black tracking-tighter select-none">
+                  {items.n}
+                </span>
+              </div>
+
+              <h3 className="font-semibold text-white/90 mb-2 text-[13px] sm:text-[14px]">
+                {items.title}
+              </h3>
+              <p className="text-[11px] sm:text-xs text-white/40 leading-relaxed">
+                {items.text}
+              </p>
+            </motion.div>
+          ))}
+        </div>
+      </section>
+
+
+
+      <section className="max-w-5xl mx-auto px-4 sm:px-6 py-16 sm:py-24">
+
+        <motion.div
+        initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.63 }}
+        className="relative rounded-2xl sm:rounded-3xl border border-[#3be8ff]/15 bg-linear-to-br from-[#071518] to-[#040f12] p-8 sm:p-14 text-center overflow-hidden">
+
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_50%_0%,rgba(59,232,255,0.08)_0%,transparent_60%)] pointer-events-none"/>
+        
+        </motion.div>
+
+        <div className="relative z-10">
+
+          <p className="text-[10px] font-semibold tracking-[3px] uppercase text-[#3be8ff]/60 mb-3 sm:mb-4">
+
+          Start building
+          
+          </p>
+          <h3 className="text-3xl sm:text-4xl font-bold tracking-tight mb-3 sm:mb-4"></h3>
+
+        </div>
+
+      </section>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
       {/* <button className="bg-black text-white p-4" onClick={() => { setShowAuth(true) }}>Open</button> */}
 
