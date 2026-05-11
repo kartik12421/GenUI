@@ -4,6 +4,7 @@ import Home from "./pages/Home";
 import axios from "axios";
 import { useDispatch } from "react-redux";
 import { setUserData } from "./redux/userSlice";
+import Generate from "./pages/Generate";
 
 export const ServerUrl = "http://localhost:3000";
 
@@ -26,7 +27,8 @@ function App() {
   }, []);
   return (
     <Routes>
-      <Route path="/" element={<Home></Home>}></Route>
+      <Route path="/" element={<Home />}></Route>
+      <Route path="/generate" element={<Generate />}></Route>
     </Routes>
   );
 }

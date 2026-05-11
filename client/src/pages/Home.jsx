@@ -634,15 +634,12 @@ function Home() {
             </span>
           </div>
           <p className="text-xs text-white/25 order-last sm:order-0">
-
-        © {new Date().getFullYear()} GenUI. All rights reserved. 
-
-        </p>
+            © {new Date().getFullYear()} GenUI. All rights reserved.
+          </p>
         </div>
       </footer>
 
-      {/* <button className="bg-black text-white p-4" onClick={() => { setShowAuth(true) }}>Open</button> */}
-
+      
       {showAuth && (
         <Auth
           onClose={() => {
