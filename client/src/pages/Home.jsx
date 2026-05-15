@@ -1,10 +1,11 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import Auth from "../components/Auth.jsx";
 import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
 import { TbCircleLetterGFilled } from "react-icons/tb";
 import { AnimatePresence, motion } from "motion/react";
 import { HiSparkles } from "react-icons/hi2";
+import { PiCurrencyDollarBold } from "react-icons/pi";
 import {
   TbArrowRight,
   TbBrandNpm,
@@ -325,7 +326,7 @@ function Home() {
           className="mb-7 flex flex-col items-center justify-center gap-4 px-3 sm:mb-8"
         >
           <div className="flex w-full max-w-md items-center justify-between gap-3 rounded-2xl border border-white/10 bg-white/4 px-4 py-3.5 font-mono text-[12px] shadow-[0_10px_30px_rgba(0,0,0,0.18)] sm:max-w-fit sm:px-5 sm:py-3 sm:text-sm">
-            <span className="text-[#3be8ff]/60">$</span>
+            <span className="text-[#3be8ff]/60"><PiCurrencyDollarBold size={15} /></span>
             <span className="min-w-0 flex-1 truncate text-left text-white/80">
               npm install genui-library
             </span>

@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import { Route, Routes } from "react-router-dom";
 import Home from "./pages/Home";
 import axios from "axios";
@@ -6,7 +6,7 @@ import { useDispatch } from "react-redux";
 import { setUserData } from "./redux/userSlice";
 import Generate from "./pages/Generate";
 
-export const ServerUrl = "http://localhost:3000";
+export const ServerUrl = import.meta.env.VITE_BACKEND_URL;
 
 function App() {
   const dispatch = useDispatch();
@@ -24,7 +24,7 @@ function App() {
     };
 
     fetchUser();
-  }, []);
+  }, [dispatch]);
   return (
     <Routes>
       <Route path="/" element={<Home />}></Route>
