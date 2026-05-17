@@ -4,3 +4,5 @@ export {Card} from "./components/Card/Card.jsx";
 
 export {ProfileCard} from "./components/ProfileCard/ProfileCard.jsx";
 export { ProductCard } from "./components/ProductCard/ProductCard.jsx";
+
+export { ECommerceCard } from "./components/ECommerceCard/ECommerceCard.jsx";

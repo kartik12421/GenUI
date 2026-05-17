@@ -120,7 +120,7 @@ function Generate() {
     if (!generate) return;
     setSaving(true);
     try {
-      const res = await axios.toString(
+      const res = await axios.post(
         ServerUrl + "/api/component/save",
         {
           name: generate.name,
@@ -139,7 +139,7 @@ function Generate() {
   };
 
   const handlePublish = async () => {
-    if (!setSavedComponentId) return;
+    if (!savedComponentId) return;
     setPublishing(true);
     try {
       await axios.post(
@@ -584,8 +584,8 @@ function Generate() {
                           onClick={() => {
                             setprompt("");
                             setGenerate(null);
-                            setSavedComponentId(nul);
-                            setPublished(null);
+                            setSavedComponentId(null);
+                            setPublished(false);
                             setActiveTab("preview");
                           }}
                           whileTap={{ scale: 0.97 }}
@@ -669,8 +669,8 @@ function Generate() {
                           onClick={() => {
                             setprompt("");
                             setGenerate(null);
-                            setSavedComponentId(nul);
-                            setPublished(null);
+                            setSavedComponentId(null);
+                            setPublished(false);
                             setActiveTab("preview");
                           }}
                           whileTap={{ scale: 0.97 }}
