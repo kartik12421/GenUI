@@ -141,9 +141,28 @@ export const publishComponent = async (req, res) => {
 
     await component.save();
 
-    return res.status(200).json({message: "Component published successfully."})
-    
+    return res
+      .status(200)
+      .json({ message: "Component published successfully." });
   } catch (error) {
     return res.status(500).json({ message: error.message });
+  }
+};
+
+export const getAllComponents = async (req, res) => {
+  try {
+    const components = await Component.find()
+      .populate("owner", "name email")
+      .sort({ createdAt: -1 });
+
+    if (!components) {
+      return res.status(404).json({ message: "components are not found" });
+    }
+
+    return res.status(200).json(components);
+  } catch (error) {
+    return res
+      .status(500)
+      .json({ message: `components are not able to get: ${error.message}` });
   }
 };

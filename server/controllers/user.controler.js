@@ -19,3 +19,17 @@ export const getCurrentUser = async (req, res) => {
       .json({ message: `Current user server error: ${error.message}` });
   }
 };
+
+export const getAllUsers = async (req, res) => {
+  try {
+    const users = await User.find().sort({ createdAt: -1 });
+    if (!users) {
+      return res.status(404).json({ message: "users are not found" });
+    }
+    res.status(200).json(users);
+  } catch (error) {
+    return res
+      .status(500)
+      .json({ message: `users are not able to get: ${error.message}` });
+  }
+};
