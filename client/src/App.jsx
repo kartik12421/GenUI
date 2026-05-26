@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { Route, Routes } from "react-router-dom";
 import Home from "./pages/Home";
-import AdminDashboard from "./pages/AdminDashboard";
+import AdminDashboard from "./pages/Admin";
 import AllComponents from "./pages/AllComponents";
 import MyComponents from "./pages/MyComponents";
 import Pricing from "./pages/Pricing";
@@ -44,7 +44,6 @@ function App() {
           withCredentials: true,
         });
         dispatch(setAllUsers(usersRes.data));
-        console.log(usersRes.data)
       } catch (error) {
         console.log(error);
         dispatch(setAllUsers(null));
@@ -57,7 +56,6 @@ function App() {
           withCredentials: true,
         });
         dispatch(setAllComponents(componentRes.data));
-        console.log(componentRes.data)
       } catch (error) {
         console.log(error);
         dispatch(setAllComponents(null));

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Auth from "../components/Auth.jsx";
 import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
@@ -89,6 +89,12 @@ function Home() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
+  useEffect(() => {
+    if (userData?.role === "admin") {
+      navigate("/admin");
+    }
+  }, [navigate, userData]);
+
   const getLetters = (name) => {
     if (!name) return "U";
     return name
@@ -128,6 +134,26 @@ function Home() {
     }
   };
 
+  const handleComponentsClick = () => {
+    navigate("/components");
+    setProfileOpen(false);
+    setMenuOpen(false);
+  };
+
+  const handleMyComponentsClick = () => {
+    navigate("/myComponents");
+    setProfileOpen(false);
+    setMenuOpen(false);
+  };
+
+  const handleGetStartedClick = () => {
+    if (userData) {
+      navigate("/components");
+    } else {
+      setShowAuth(true);
+    }
+  };
+
   return (
     <div
       className="min-h-screen bg-[#030b0d] text-white overflow-x-hidden "
@@ -151,7 +177,10 @@ function Home() {
           </div>
 
           <div className="flex items-center gap-3">
-            <button className="hidden rounded-xl border border-white/15 bg-transparent px-6 py-2.5 text-sm text-white/70 transition-colors duration-200 hover:border-white/25 hover:text-white md:block">
+            <button
+              onClick={handleComponentsClick}
+              className="hidden rounded-xl border border-white/15 bg-transparent px-6 py-2.5 text-sm text-white/70 transition-colors duration-200 hover:border-white/25 hover:text-white md:block"
+            >
               Components
             </button>
 
@@ -192,7 +221,7 @@ function Home() {
 
                       <div className="py-1.5 ">
                         <button
-                          onClick={() => setProfileOpen(false)}
+                          onClick={handleMyComponentsClick}
                           className="w-full flex items-center gap-3 px-4 py-2.5 text-sm text-white/60 hover:text-white hover:bg-white/4 transition-colors cursor-pointer bg-transparent border-none text-left"
                         >
                           <TbComponents
@@ -244,7 +273,10 @@ function Home() {
             exit={{ opacity: 0, y: -10 }}
             className="md:hidden sticky top-16.25 z-30 bg-[#030b0d]/95 backdrop-blur-md border-b border-white/5 px-4 py-4 flex flex-col gap-3"
           >
-            <button className="rounded-xl border border-white/15 bg-transparent px-6 py-2.5 text-sm text-white/70 transition-colors duration-200 hover:border-white/25 hover:text-white">
+            <button
+              onClick={handleComponentsClick}
+              className="rounded-xl border border-white/15 bg-transparent px-6 py-2.5 text-sm text-white/70 transition-colors duration-200 hover:border-white/25 hover:text-white"
+            >
               Components
             </button>
 
@@ -260,7 +292,7 @@ function Home() {
                 </div>
 
                 <button
-                  onClick={() => setMenuOpen(false)}
+                  onClick={handleMyComponentsClick}
                   className="flex items-center gap-2 text-sm text-white/60 hover:text-white transition-colors py-1 bg-transparent border-none cursor-pointer text-left"
                 >
                   <TbComponents size={16} className="text-[#3be8ff]/70" /> My
@@ -326,7 +358,9 @@ function Home() {
           className="mb-7 flex flex-col items-center justify-center gap-4 px-3 sm:mb-8"
         >
           <div className="flex w-full max-w-md items-center justify-between gap-3 rounded-2xl border border-white/10 bg-white/4 px-4 py-3.5 font-mono text-[12px] shadow-[0_10px_30px_rgba(0,0,0,0.18)] sm:max-w-fit sm:px-5 sm:py-3 sm:text-sm">
-            <span className="text-[#3be8ff]/60"><PiCurrencyDollarBold size={15} /></span>
+            <span className="text-[#3be8ff]/60">
+              <PiCurrencyDollarBold size={15} />
+            </span>
             <span className="min-w-0 flex-1 truncate text-left text-white/80">
               npm install genui-library
             </span>
@@ -349,6 +383,7 @@ function Home() {
             className="flex flex-col sm:flex-row justify-center gap-3 px-4 sm:px-0"
           >
             <motion.button
+              onClick={handleGetStartedClick}
               whileHover={{ y: -2 }}
               whileTap={{ scale: 0.95 }}
               className="flex items-center justify-center gap-2 px-6 sm:px-7 py-3.5 bg-white text-[#030b0d] rounded-xl font-semibold text-sm cursor-pointer border-none shadow-[0_4px_24px_rgba(255,255,255,0.1)] hover:shadow-[0_6px_32px_rgba(255,255,255,0.18)] transition-shadow w-full sm:w-auto"
@@ -561,6 +596,7 @@ function Home() {
                 </p>
                 <div className="flex flex-col sm:flex-row justify-center gap-4">
                   <motion.button
+                    onClick={() => navigate("/generate")}
                     whileHover={{ y: -2, scale: 1.05 }}
                     whileTap={{ scale: 0.92 }}
                     className="flex items-center justify-center gap-2 bg-[#3be8ff] text-[#030b0d] px-7 py-3.5 rounded-xl font-semibold text-sm cursor-pointer border-none shadow-[0_0_30px_rgba(59,232,255,0.3)] hover:shadow-[0_0_40px_rgba(59,232,255,0.45)] transition-shadow"
@@ -569,12 +605,13 @@ function Home() {
                     Generate AI Components
                   </motion.button>
                   <motion.button
+                    onClick={handleMyComponentsClick}
                     whileHover={{ y: -2 }}
                     whileTap={{ scale: 0.92 }}
                     className="flex items-center justify-center gap-2 px-7 py-3.5 border border-white/15 rounded-xl text-sm text-white/60 hover:text-white hover:border-white/25 transition-all cursor-pointer bg-transparent"
                   >
-                    <TbComponents size={15} className="text-[#3be8ff]/70" /> My
-                    Components
+                    <TbComponents size={15} className="text-[#3be8ff]/70" />{" "}
+                    My Components
                   </motion.button>
                 </div>
               </>
@@ -596,6 +633,7 @@ function Home() {
                     Get started for free
                   </motion.button>
                   <motion.button
+                    onClick={handleComponentsClick}
                     whileHover={{ y: -2 }}
                     whileTap={{ scale: 0.92 }}
                     className="flex items-center justify-center gap-2 px-7 py-3.5 border border-white/15 rounded-xl text-sm text-white/60 hover:text-white hover:border-white/25 transition-all cursor-pointer bg-transparent"
@@ -627,7 +665,10 @@ function Home() {
           </div>
 
           <div className="flex flex-wrap justify-center gap-4 sm:gap-5 text-xs text-white/30">
-            <span className="hover:text-white/60 transition-color">
+            <span
+              onClick={handleComponentsClick}
+              className="cursor-pointer hover:text-white/60 transition-color"
+            >
               Components
             </span>
             <span className="hover:text-white/60 transition-color">
@@ -640,7 +681,6 @@ function Home() {
         </div>
       </footer>
 
-      
       {showAuth && (
         <Auth
           onClose={() => {
