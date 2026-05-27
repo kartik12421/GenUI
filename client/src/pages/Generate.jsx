@@ -140,6 +140,11 @@ function Generate() {
 
   const handlePublish = async () => {
     if (!savedComponentId) return;
+    if (userRole !== "admin") {
+      showToast("Only admins can publish components.", "error");
+      return;
+    }
+
     setPublishing(true);
     try {
       await axios.post(
@@ -156,7 +161,11 @@ function Generate() {
       showToast("Published to npm successfully", "success");
       setPublishing(false);
     } catch (error) {
-      showToast("Published failed", "error");
+      const message =
+        error.response?.data?.message ||
+        error.message ||
+        "Published failed";
+      showToast(message, "error");
       setPublishing(false);
     }
   };
@@ -515,13 +524,15 @@ function Generate() {
                       <motion.button
                         onClick={handlePublish}
                         whileTap={{ scale: 0.97 }}
-                        disabled={publishing}
+                        disabled={publishing || userRole !== "admin"}
                         className="flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-semibold transition-all disabled:opacity-40"
                         style={{
                           background: publishing
                             ? "rgba(6,182,212,0.2)"
+                            : userRole !== "admin"
+                            ? "rgba(156,163,175,0.2)"
                             : "linear-gradient(135deg, #06b6d4 0%, #0891b2 100%)",
-                          boxShadow: publishing
+                          boxShadow: publishing || userRole !== "admin"
                             ? "none"
                             : "0 0 20px rgba(6,182,212,0.3)",
                           color: "#fff",
@@ -541,7 +552,11 @@ function Generate() {
                         ) : (
                           <FiUploadCloud size={14} />
                         )}
-                        {publishing ? "Publishing..." : "Publish to npm"}
+                        {publishing
+                          ? "Publishing..."
+                          : userRole !== "admin"
+                          ? "Admin only"
+                          : "Publish to npm"}
                       </motion.button>
                     )}
 

@@ -49,10 +49,10 @@ function Admin() {
   const [hoveredPoint, setHoveredPoint] = useState(null);
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const [componentSearch, setComponentSearch] = useState("");
   const { userData, allUsers, allComponents } = useSelector((s) => s.user);
   const publicComponents =
     allComponents?.filter((c) => c.visibility === "public") || [];
-  console.log(publicComponents);
   const navItems = [
     { id: "dashboard", label: "Dashboard", Icon: TbLayoutDashboard },
     { id: "add", label: "Add Component", Icon: TbPackage },
@@ -72,6 +72,16 @@ function Admin() {
       color: "#a78bfa",
     },
   ];
+
+  const filteredPublicComponents = componentSearch.trim()
+    ? publicComponents.filter(
+        (c) =>
+          c.name?.toLowerCase().includes(componentSearch.toLowerCase()) ||
+          c.props?.some((p) =>
+            p.toLowerCase().includes(componentSearch.toLowerCase()),
+          ),
+      )
+    : publicComponents;
 
   const handleLogOut = async () => {
     try {
@@ -472,11 +482,90 @@ function Admin() {
                       className="absolute left-3 top-2.5 text-white/30 pointer-event-none"
                     />
                     <input
+                      value={componentSearch}
+                      onChange={(e) => setComponentSearch(e.target.value)}
                       placeholder="Search components..."
                       className="w-full bg-white/4 border border-white/10 rounded-xl pl-8 pr-3 py-2 text-xs text-white placeholder-white/25 outline-none focus:border-[#3be8ff]/40 transition-colors"
                     />
                   </div>
                 </div>
+
+                {filteredPublicComponents.length === 0 ? (
+                  <div className="flex flex-col items-center justify-center py-14 gap-3 text-white/20">
+                    <TbBoxOff size={32} />
+                    <p className="text-sm">
+                      {componentSearch
+                        ? "No components match your search"
+                        : "No public components yet"}
+                    </p>
+                  </div>
+                ) : (
+                  <div className="divide-y divide-white/4">
+                    {filteredPublicComponents.map((c, i) => (
+                      <motion.div
+                        key={i}
+                        className="flex items-start sm:items-center justify-between gap-3 px-4 sm:px-5 py-3.5 hover:bg-white/2 transition-colors"
+                      >
+                        <div className="flex items-start sm:items-center gap-3 min-w-0">
+                          <div
+                            className="w-8 h-8 rounded-xl flex items-center justify-center shrink-0 mt-0.5 sm:mt-0"
+                            style={{
+                              background: "rgba(167,139,250,0.1)",
+                              border: "1px solid rgba(167,139,250,0.2)",
+                            }}
+                          >
+                            <TbCode size={15} style={{ color: "#a78bfa" }} />
+                          </div>
+                          <div className="min-w-0">
+                            <p className="text-sm font-semibold text-white truncate">
+                              {c.name}
+                            </p>
+                            {c.props?.length > 0 && (
+                              <div className="flex flex-wrap gap-1 mt-1">
+                                {c.props.slice(0, 4).map((p) => (
+                                  <div
+                                    key={p}
+                                    className="px-1.5 py-0.5 rounded-md text-[10px] font-medium"
+                                    style={{
+                                      background: "rgba(167,139,250,0.1)",
+                                      color: "rgba(167,139,250,0.7)",
+                                    }}
+                                  >
+                                    {p}
+                                  </div>
+                                ))}
+                                {c.props?.length > 4 && (
+                                  <span className="p-1.5 py-0.5 rounded-md text-{10px} text-white/25">
+                                    +{c.props.length - 4} more
+                                  </span>
+                                )}
+                              </div>
+                            )}
+                          </div>
+                        </div>
+                        <div className="flex flex-col sm:flex-row items-end sm:items-center gap-2 shrink-0">
+                          <span className="text-[11px] text-white/25 whitespace-nowrap">
+                            {new Date(c.createdAt).toLocaleDateString("en-US", {
+                              month: "short",
+                              day: "numeric",
+                              year: "numeric",
+                            })}
+                          </span>
+                          <span
+                            className="flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-semibold"
+                            style={{
+                              background: "rgba(59,232,255,0.08)",
+                              color: "#3be8ff",
+                              border: "1px solid rgba(59,232,255,0.2)",
+                            }}
+                          >
+                            <TbWorld size={16}/>public
+                          </span>
+                        </div>
+                      </motion.div>
+                    ))}
+                  </div>
+                )}
               </motion.div>
             </motion.div>
           )}

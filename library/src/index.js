@@ -1,8 +1,10 @@
-export {Button} from "./components/Button/Button.jsx";
-
-export {Card} from "./components/Card/Card.jsx";
-
-export {ProfileCard} from "./components/ProfileCard/ProfileCard.jsx";
+export { Button } from "./components/Button/Button.jsx";
+export { Card } from "./components/Card/Card.jsx";
+export { ProfileCard } from "./components/ProfileCard/ProfileCard.jsx";
 export { ProductCard } from "./components/ProductCard/ProductCard.jsx";
-
 export { ECommerceCard } from "./components/ECommerceCard/ECommerceCard.jsx";
+export { CustomCursor } from "./components/CustomCursor/CustomCursor.jsx";
+
+export { Navbar } from "./components/Navbar/Navbar.jsx";
+
+export { Footer } from "./components/Footer/Footer.jsx";
