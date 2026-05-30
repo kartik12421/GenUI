@@ -8,3 +8,5 @@ export { CustomCursor } from "./components/CustomCursor/CustomCursor.jsx";
 export { Navbar } from "./components/Navbar/Navbar.jsx";
 
 export { Footer } from "./components/Footer/Footer.jsx";
+
+export { Loader } from "./components/Loader/Loader.jsx";

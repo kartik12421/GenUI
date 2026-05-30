@@ -20,12 +20,14 @@ import {
   TbSearch,
   TbBoxOff,
 } from "react-icons/tb";
+import { FiAlertCircle, FiCheckCircle } from "react-icons/fi";
 import { TbCircleLetterGFilled } from "react-icons/tb";
 import { ServerUrl } from "../App";
 import axios from "axios";
 import { setUserData } from "../redux/userSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import LiveComponentPreview from "../components/LiveComponentPreview";
 
 function CustomTooltip({ active, payload, label }) {
   if (!active || !payload?.length) return null;
@@ -41,6 +43,590 @@ function CustomTooltip({ active, payload, label }) {
 
 function ToolTip(props) {
   return <CustomTooltip {...props} />;
+}
+
+function Toast({ message, type, onClose }) {
+  return (
+    <AnimatePresence>
+      <motion.div
+        initial={{ opacity: 0, y: -40 }}
+        animate={{ opacity: 1, y: 0 }}
+        exit={{ opacity: 0, y: -40 }}
+        className="fixed top-4 right-6 z-50 flex min-w-[220px] items-center gap-3 rounded-2xl px-5 py-3 shadow-2xl"
+        style={{
+          background:
+            type === "success"
+              ? "#0d9f6e"
+              : type === "error"
+                ? "#e02424"
+                : "#1c1c2e",
+          color: "#fff",
+        }}
+      >
+        {type === "success" ? (
+          <FiCheckCircle size={18} />
+        ) : (
+          <FiAlertCircle size={18} />
+        )}
+        <p className="text-sm font-medium">{message}</p>
+        <button
+          onClick={onClose}
+          className="ml-auto cursor-pointer text-white/60 transition-colors hover:text-white"
+          type="button"
+        >
+          <TbX size={18} />
+        </button>
+      </motion.div>
+    </AnimatePresence>
+  );
+}
+
+function PropsInput({ props, setProps }) {
+  const [input, setInput] = useState("");
+
+  const addProps = () => {
+    const trimmed = input.trim();
+    if (trimmed && !props.includes(trimmed)) {
+      setProps([...props, trimmed]);
+    }
+  };
+
+  const addPropsFromInput = () => {
+    const nextProps = input
+      .split(",")
+      .map((value) => value.trim())
+      .filter(Boolean);
+
+    if (nextProps.length === 0) return;
+
+    setProps((current) => [...new Set([...current, ...nextProps])]);
+    setInput("");
+  };
+
+  const removeProp = (propToRemove) => {
+    setProps((current) => current.filter((prop) => prop !== propToRemove));
+  };
+
+  const handleKeyDown = (e) => {
+    if (e.key === "Enter" || e.key === ",") {
+      e.preventDefault();
+      addPropsFromInput();
+    }
+  };
+
+  return (
+    <div className="rounded-[26px] border border-white/6 bg-[#091014] px-4 py-4 shadow-[0_18px_40px_rgba(0,0,0,0.18)]">
+      <div className="mb-3 flex flex-wrap gap-2 min-h-7 items-center">
+        {props.length === 0 && (
+          <span className="text-[13px] text-white/28">No props added yet</span>
+        )}
+        {props.map((p) => (
+          <span
+            key={p}
+            className="flex items-center gap-1 rounded-full border px-2.5 py-1 text-[11px] font-semibold"
+            style={{
+              background: "rgba(137, 92, 255, 0.14)",
+              color: "#cdb7ff",
+              borderColor: "rgba(167, 139, 250, 0.24)",
+            }}
+          >
+            {p}
+            <button
+              onClick={() => {
+                removeProp(p);
+              }}
+              className="border-none bg-transparent p-0 leading-none text-inherit opacity-65 transition-opacity hover:opacity-100 cursor-pointer"
+            >
+              <TbX size={11} />
+            </button>
+          </span>
+        ))}
+      </div>
+      <div className="flex items-center gap-3">
+        <input
+          value={input}
+          onChange={(e) => setInput(e.target.value)}
+          onKeyDown={handleKeyDown}
+          placeholder='e.g. "title", "onClick", "children"'
+          className="min-w-0 flex-1 rounded-[18px] border border-white/6 bg-[#121a20] px-4 py-3 text-sm text-white placeholder-white/16 outline-none transition-colors focus:border-[#8d6bff]/55"
+        />
+        <button
+          onClick={addPropsFromInput}
+          className="px-3 sm:px-4 py-2 rounded-xl text-sm font-semibold border-none cursor-pointer transition-all whitespace-nowrap"
+          style={{
+            background: "rgba(167,139,250,0.15)",
+            color: "#a78bfa",
+            border: "1px solid rgba(167,139,250,0.25)",
+          }}
+        >
+          Add Props
+        </button>
+      </div>
+      <p className="mt-2.5 text-[11px] text-white/22">
+        Press{" "}
+        <span className="rounded bg-white/5 px-1.5 py-0.5 text-[10px] text-white/40">
+          Enter
+        </span>{" "}
+        or comma to add a prop
+      </p>
+    </div>
+  );
+}
+
+function AddComponentForm() {
+  const { userData } = useSelector((state) => state.user);
+  const [name, setName] = useState("");
+  const [props, setProps] = useState([]);
+  const [code, setCode] = useState("");
+  const [codeTab, setCodeTab] = useState("code");
+  const [saving, setSaving] = useState(false);
+  const [publishing, setPublishing] = useState(false);
+  const [savedId, setSavedId] = useState(null);
+  const [isPublished, setIsPublished] = useState(false);
+  const [toast, setToast] = useState(null);
+  const trimmedName = name.trim();
+  const hasCode = Boolean(code.trim());
+  const canSave = Boolean(trimmedName && hasCode);
+  const canPublish =
+    Boolean(savedId) && !isPublished && userData?.role === "admin";
+
+  const showToast = (message, type = "info") => {
+    setToast({ message, type });
+    setTimeout(() => setToast(null), 3500);
+  };
+
+  const resetSavedState = () => {
+    setSavedId(null);
+    setIsPublished(false);
+  };
+
+  const handleNameChange = (e) => {
+    setName(e.target.value);
+    if (savedId || isPublished) resetSavedState();
+  };
+
+  const handleCodeChange = (e) => {
+    setCode(e.target.value);
+    if (savedId || isPublished) resetSavedState();
+  };
+
+  const handlePropsChange = (nextProps) => {
+    setProps(nextProps);
+    if (savedId || isPublished) resetSavedState();
+  };
+
+  const handleReset = () => {
+    setName("");
+    setProps([]);
+    setCode("");
+    setSavedId(null);
+    setIsPublished(false);
+    setPublishing(false);
+    setCodeTab("code");
+    setToast(null);
+  };
+
+  const handleSave = async () => {
+    if (!canSave) {
+      showToast("Add a component name and code first.", "error");
+      return;
+    }
+
+    setSaving(true);
+    try {
+      const res = await axios.post(
+        ServerUrl + "/api/component/save",
+        {
+          name: trimmedName,
+          code,
+          props,
+        },
+        { withCredentials: true },
+      );
+      setSavedId(res.data._id);
+      setIsPublished(false);
+      showToast("Component saved successfully !", "success");
+    } catch (error) {
+      console.log(error);
+      showToast("Component saved failed", "error");
+    } finally {
+      setSaving(false);
+    }
+  };
+
+  const handlePublish = async () => {
+    if (!savedId) return;
+    if (userData?.role !== "admin") {
+      showToast("Only admins can publish components.", "error");
+      return;
+    }
+
+    setPublishing(true);
+    try {
+      await axios.post(
+        ServerUrl + "/api/component/publish",
+        {
+          componentId: savedId,
+        },
+        { withCredentials: true },
+      );
+      setIsPublished(true);
+      showToast("Published to npm successfully", "success");
+    } catch (error) {
+      console.log(error);
+      const message =
+        error.response?.data?.message || error.message || "Published failed";
+      showToast(message, "error");
+    } finally {
+      setPublishing(false);
+    }
+  };
+
+  return (
+    <div className="px-4 sm:px-6 lg:px-8 py-5 sm:py-6 max-w-5xl w-full mx-auto">
+      {toast && (
+        <Toast
+          message={toast.message}
+          type={toast.type}
+          onClose={() => setToast(null)}
+        />
+      )}
+      <div className="mb-5 rounded-[28px] border border-white/7 bg-white/2 p-4 sm:mb-6 sm:p-5">
+        <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
+          <div>
+            <h2 className="mb-1 text-base font-bold sm:text-lg">
+              Add Component
+            </h2>
+            <p className="text-sm text-white/35">
+              Add components manually, document their props, preview the output,
+              and save or publish when everything looks right.
+            </p>
+          </div>
+          <div className="flex flex-wrap gap-2 text-[11px] font-semibold">
+            <span className="rounded-full border border-[#3be8ff]/18 bg-[#3be8ff]/10 px-3 py-1 text-[#8ee7ff]">
+              Manual entry
+            </span>
+            <span className="rounded-full border border-[#a78bfa]/18 bg-[#a78bfa]/10 px-3 py-1 text-[#c9b3ff]">
+              Live preview
+            </span>
+          </div>
+        </div>
+      </div>
+
+      <div className="grid gap-4 lg:grid-cols-[minmax(0,1fr)_280px] lg:gap-5">
+        <div className="space-y-4 sm:space-y-5">
+        <div className="p-3.5 sm:p-4 rounded-2xl border border-white/7 bg-white/2 space-y-2">
+          <label
+            htmlFor="name"
+            className="text-xs font-semibold text-white/50 uppercase tracking-wider block"
+          >
+            Component Name
+          </label>
+          <input
+            value={name}
+            onChange={handleNameChange}
+            type="text"
+            id="name"
+            placeholder='e.g. "PricingCard", "HeroSection"'
+            className="w-full bg-white/4 border border-white/10 rounded-xl px-3 py-2.5 text-sm text-white placeholder-white/20 outline-none focus:border-[#3be8ff]/40 transition-colors"
+          />
+          <p className="text-[11px] text-white/24">
+            Use the same PascalCase name that your React component exports.
+          </p>
+        </div>
+
+        <div className="space-y-2">
+          <label className="block text-xs font-semibold uppercase tracking-[0.24em] text-white/45">
+            Props
+          </label>
+          <PropsInput props={props} setProps={handlePropsChange} />
+        </div>
+        <div className="rounded-2xl border border-white/7 bg-white/2 overflow-hidden">
+          <div className="flex items-center justify-between px-3.5 py-3 border-b border-white/6 sm:px-4">
+            <div>
+              <label className="text-xs font-semibold text-white/50 uppercase tracking-wider">
+                Component Code
+              </label>
+              <p className="mt-1 text-[11px] text-white/24">
+                Paste the full component so preview and save stay in sync.
+              </p>
+            </div>
+            <div
+              className="flex gap-1 rounded-xl p-1"
+              style={{ background: "rgba(0,0,0,0.3)" }}
+            >
+              {["code", "preview"].map((tab) => (
+                <button
+                  key={tab}
+                  onClick={() => setCodeTab(tab)}
+                  type="button"
+                  className="flex items-center gap-1 sm:gap-1.5 px-2.5 sm:px-3 py-1.5 rounded-lg text-xs font-medium transition-all capitalize border-none cursor-pointer"
+                  style={{
+                    background:
+                      codeTab === tab ? "rgba(59,232,255,0.2)" : "transparent",
+                    color:
+                      codeTab === tab ? "#3be8ff" : "rgba(255,255,255,0.4)",
+                  }}
+                >
+                  {tab === "code" ? <TbCode size={14} /> : <TbEye size={14} />}
+                  <span className="hidden xs:inline">{tab}</span>
+                </button>
+              ))}
+            </div>
+          </div>
+          <AnimatePresence mode="wait">
+            {codeTab === "code" ? (
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+              >
+                <textarea
+                  value={code}
+                  onChange={handleCodeChange}
+                  rows={12}
+                  placeholder={`export default function MyComponent({ title }) {\n  return (\n    <div>\n      <h1>{title}</h1>\n    </div>\n  );\n}`}
+                  className="w-full bg-[#0d1117] px-4 sm:px-5 py-4 text-xs leading-relaxed text-green-300 font-mono resize-none outline-none placeholder-white/10"
+                  style={{ minHeight: 260 }}
+                />
+              </motion.div>
+            ) : (
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                className="p-3.5 sm:p-4"
+              >
+                {code.trim() ? (
+                  <LiveComponentPreview code={code} />
+                ) : (
+                  <div className="h-36 sm:h-40 flex items-center justify-center text-white/20 text-sm rounded-xl border border-dashed border-white/8">
+                    Paste some code first to see the preview
+                  </div>
+                )}
+              </motion.div>
+            )}
+          </AnimatePresence>
+        </div>
+        <div className="flex items-center gap-2 sm:gap-3 flex-wrap pt-1">
+          <motion.button
+            onClick={handleSave}
+            disabled={saving || savedId}
+            type="button"
+            whileHover={
+              saving || savedId
+                ? undefined
+                : { y: -1, boxShadow: "0 14px 28px rgba(59,232,255,0.14)" }
+            }
+            whileTap={{ scale: 0.95 }}
+            className="inline-flex min-w-[168px] items-center justify-center gap-2.5 rounded-2xl px-5 py-3 text-sm font-semibold tracking-[0.02em] transition-all disabled:cursor-not-allowed disabled:opacity-80"
+            style={{
+              background: savedId
+                ? "rgba(16, 185, 129, 0.16)"
+                : "rgba(59, 232, 255, 0.12)",
+              color: savedId ? "#34d399" : "#3be8ff",
+              border: `1px solid ${
+                savedId
+                  ? "rgba(16, 185, 129, 0.34)"
+                  : "rgba(59, 232, 255, 0.28)"
+              }`,
+              boxShadow: savedId
+                ? "0 12px 28px rgba(16,185,129,0.12)"
+                : "0 10px 24px rgba(59,232,255,0.08)",
+            }}
+          >
+            {saving ? (
+              <motion.span
+                animate={{ rotate: 360 }}
+                transition={{ repeat: Infinity, duration: 1, ease: "linear" }}
+                className="flex items-center justify-center"
+              >
+                <TbDeviceFloppy size={17} />
+              </motion.span>
+            ) : (
+              <span className="flex items-center justify-center rounded-full bg-black/10 p-1">
+                <TbDeviceFloppy size={15} />
+              </span>
+            )}
+            <span>
+              {saving ? "Saving..." : savedId ? "Saved" : "Save Component"}
+            </span>
+          </motion.button>
+          <AnimatePresence>
+            {savedId && !isPublished && (
+              <motion.button
+                onClick={handlePublish}
+                initial={{ opacity: 0, x: -8 }}
+                animate={{ opacity: 1, x: 0 }}
+                exit={{ opacity: 0, x: -8 }}
+                whileTap={{ scale: 0.95 }}
+                disabled={publishing || !canPublish}
+                className={`flex items-center gap-2 px-4 sm:px-5 py-2.5 rounded-xl text-sm font-semibold disabled:opacity-40 transition-all border-none cursor-pointer text-white ${
+                  publishing
+                    ? "shadow-none"
+                    : "shadow-[0_0_20px_rgba(6,182,212,0.25)]"
+                }`}
+                style={{
+                  background:
+                    userData?.role === "admin"
+                      ? "linear-gradient(to bottom right, #06b6d4, #0891b2)"
+                      : "rgba(255,255,255,0.06)",
+                }}
+              >
+                {publishing ? (
+                  <motion.span
+                    animate={{ rotate: 360 }}
+                    transition={{
+                      repeat: Infinity,
+                      duration: 1,
+                      ease: "linear",
+                    }}
+                  >
+                    <TbLoader size={15} />
+                  </motion.span>
+                ) : (
+                  <TbUpload size={15} />
+                )}
+                {publishing
+                  ? "Publishing..."
+                  : userData?.role === "admin"
+                    ? "Publish to npm"
+                    : "Admin only"}
+              </motion.button>
+            )}
+
+            {isPublished && (
+              <motion.div
+                initial={{ opacity: 0, scale: 0.9 }}
+                animate={{ opacity: 1, scale: 1 }}
+                className="flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-semibold"
+                style={{
+                  background: "rgba(16,185,129,0.1)",
+                  border: "1px solid rgba(16,185,129,0.3)",
+                  color: "#34d399",
+                }}
+              >
+                <FiCheckCircle size={14} />
+                Published
+              </motion.div>
+            )}
+          </AnimatePresence>
+
+          {(savedId || name || code || props.length > 0) && (
+            <button
+              onClick={handleReset}
+              type="button"
+              className="ml-auto flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs text-white/30 hover:text-white/60 transition-all bg-transparent border-none cursor-pointer"
+            >
+              <TbTrash size={13} /> Reset
+            </button>
+          )}
+        </div>
+        </div>
+
+        <div className="space-y-4">
+          <div className="rounded-[28px] border border-white/7 bg-white/2 p-4 sm:p-5">
+            <p className="text-xs font-semibold uppercase tracking-[0.24em] text-white/45">
+              Readiness
+            </p>
+            <div className="mt-4 space-y-3">
+              {[
+                {
+                  label: "Name added",
+                  ready: Boolean(trimmedName),
+                  hint: "Give the component a clear exported name.",
+                },
+                {
+                  label: "Code pasted",
+                  ready: hasCode,
+                  hint: "Preview depends on valid React component code.",
+                },
+                {
+                  label: "Props documented",
+                  ready: props.length > 0,
+                  hint: "Optional, but useful for discoverability.",
+                },
+              ].map((item) => (
+                <div
+                  key={item.label}
+                  className="rounded-2xl border border-white/6 bg-[#091014] p-3"
+                >
+                  <div className="flex items-center justify-between gap-3">
+                    <span className="text-sm font-semibold text-white/80">
+                      {item.label}
+                    </span>
+                    <span
+                      className="rounded-full px-2.5 py-1 text-[10px] font-semibold"
+                      style={{
+                        background: item.ready
+                          ? "rgba(16,185,129,0.12)"
+                          : "rgba(255,255,255,0.06)",
+                        color: item.ready
+                          ? "#34d399"
+                          : "rgba(255,255,255,0.45)",
+                        border: `1px solid ${
+                          item.ready
+                            ? "rgba(16,185,129,0.24)"
+                            : "rgba(255,255,255,0.08)"
+                        }`,
+                      }}
+                    >
+                      {item.ready ? "Ready" : "Pending"}
+                    </span>
+                  </div>
+                  <p className="mt-2 text-[11px] leading-relaxed text-white/28">
+                    {item.hint}
+                  </p>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          <div className="rounded-[28px] border border-white/7 bg-white/2 p-4 sm:p-5">
+            <p className="text-xs font-semibold uppercase tracking-[0.24em] text-white/45">
+              Snapshot
+            </p>
+            <div className="mt-4 space-y-3 text-sm">
+              <div className="rounded-2xl border border-white/6 bg-[#091014] p-3">
+                <p className="text-white/35">Current name</p>
+                <p className="mt-1 font-semibold text-white">
+                  {trimmedName || "Untitled component"}
+                </p>
+              </div>
+              <div className="grid grid-cols-2 gap-3">
+                <div className="rounded-2xl border border-white/6 bg-[#091014] p-3">
+                  <p className="text-white/35">Props</p>
+                  <p className="mt-1 text-lg font-bold text-[#c9b3ff]">
+                    {props.length}
+                  </p>
+                </div>
+                <div className="rounded-2xl border border-white/6 bg-[#091014] p-3">
+                  <p className="text-white/35">Status</p>
+                  <p className="mt-1 font-semibold text-white">
+                    {isPublished ? "Published" : savedId ? "Saved" : "Draft"}
+                  </p>
+                </div>
+              </div>
+              <div className="rounded-2xl border border-white/6 bg-[#091014] p-3">
+                <p className="text-white/35">Next step</p>
+                <p className="mt-1 text-[13px] leading-relaxed text-white/65">
+                  {!canSave
+                    ? "Add a component name and valid code to unlock saving."
+                    : !savedId
+                      ? "Save the component to create a reusable library record."
+                      : !isPublished && userData?.role === "admin"
+                        ? "Publish it when you're ready to make it public."
+                        : !isPublished
+                          ? "An admin can publish this after it has been saved."
+                          : "This component is already saved and published."}
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
 }
 
 function Admin() {
@@ -95,23 +681,36 @@ function Admin() {
     }
   };
 
-  const chartData = publicComponents.reduce((result, component) => {
-    const raw = component.createdAt;
-    if (!raw) return result;
+  const last30Days = Array.from({ length: 30 }, (_, index) => {
+    const date = new Date();
+    date.setHours(0, 0, 0, 0);
+    date.setDate(date.getDate() - (29 - index));
 
-    const label = new Date(raw).toLocaleDateString("en-US", {
+    const dateKey = date.toISOString().slice(0, 10);
+    const label = date.toLocaleDateString("en-US", {
       month: "short",
       day: "numeric",
     });
 
-    result[label] = (result[label] || 0) + 1;
+    return { dateKey, label };
+  });
+
+  const chartData = publicComponents.reduce((result, component) => {
+    if (!component.createdAt) return result;
+
+    const createdAt = new Date(component.createdAt);
+    createdAt.setHours(0, 0, 0, 0);
+    const dateKey = createdAt.toISOString().slice(0, 10);
+
+    result[dateKey] = (result[dateKey] || 0) + 1;
     return result;
   }, {});
 
-  const formattedChartData = Object.entries(chartData)
-    .map(([date, count]) => ({ date, components: count }))
-    .sort((a, b) => new Date(a.date) - new Date(b.date))
-    .slice(-12);
+  const formattedChartData = last30Days.map(({ dateKey, label }) => ({
+    date: label,
+    dateKey,
+    components: chartData[dateKey] || 0,
+  }));
 
   const chartHeight = 220;
   const chartWidth = 720;
@@ -141,9 +740,23 @@ function Admin() {
     };
   });
 
-  const linePath = chartPoints
-    .map((point, index) => `${index === 0 ? "M" : "L"} ${point.x} ${point.y}`)
-    .join(" ");
+  const getSmoothLinePath = (points) => {
+    if (points.length === 0) return "";
+    if (points.length === 1) return `M ${points[0].x} ${points[0].y}`;
+
+    return points.reduce((path, point, index, currentPoints) => {
+      if (index === 0) {
+        return `M ${point.x} ${point.y}`;
+      }
+
+      const previousPoint = currentPoints[index - 1];
+      const controlX = (previousPoint.x + point.x) / 2;
+
+      return `${path} C ${controlX} ${previousPoint.y}, ${controlX} ${point.y}, ${point.x} ${point.y}`;
+    }, "");
+  };
+
+  const linePath = getSmoothLinePath(chartPoints);
 
   const areaPath = chartPoints.length
     ? `${linePath} L ${chartPoints[chartPoints.length - 1].x} ${
@@ -326,7 +939,7 @@ function Admin() {
                     </p>
                   </div>
                   <span className="shrink-0 rounded-full border border-[#a78bfa]/12 bg-[#a78bfa]/10 px-2.5 py-1 text-[10px] font-semibold text-[#c5a7ff]">
-                    Last 12 days
+                    Last 30 days
                   </span>
                 </div>
 
@@ -454,7 +1067,7 @@ function Admin() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.3, duration: 0.5 }}
-                className="rounded-2xl border border-white/7 bg-white/2overflow-hidden"
+                className="rounded-2xl border border-white/7 bg-white/2 overflow-hidden"
               >
                 <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 px-4 sm:px-5 py-4 border-b border-white/5">
                   <div className="flex items-center gap-2.5">
@@ -479,7 +1092,7 @@ function Admin() {
                   <div className="relative w-full sm:w-48">
                     <TbSearch
                       size={13}
-                      className="absolute left-3 top-2.5 text-white/30 pointer-event-none"
+                      className="absolute left-3 top-2.5 text-white/30 pointer-events-none"
                     />
                     <input
                       value={componentSearch}
@@ -535,7 +1148,7 @@ function Admin() {
                                   </div>
                                 ))}
                                 {c.props?.length > 4 && (
-                                  <span className="p-1.5 py-0.5 rounded-md text-{10px} text-white/25">
+                                  <span className="p-1.5 py-0.5 rounded-md text-[10px] text-white/25">
                                     +{c.props.length - 4} more
                                   </span>
                                 )}
@@ -559,7 +1172,8 @@ function Admin() {
                               border: "1px solid rgba(59,232,255,0.2)",
                             }}
                           >
-                            <TbWorld size={16}/>public
+                            <TbWorld size={16} />
+                            public
                           </span>
                         </div>
                       </motion.div>
@@ -567,6 +1181,19 @@ function Admin() {
                   </div>
                 )}
               </motion.div>
+            </motion.div>
+          )}
+
+          {/* add components */}
+          {activeView === "add" && (
+            <motion.div
+              key="add"
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -10 }}
+              transition={{ duration: 0.25 }}
+            >
+              <AddComponentForm />
             </motion.div>
           )}
         </AnimatePresence>
