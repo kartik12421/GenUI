@@ -52,7 +52,7 @@ function Toast({ message, type, onClose }) {
         initial={{ opacity: 0, y: -40 }}
         animate={{ opacity: 1, y: 0 }}
         exit={{ opacity: 0, y: -40 }}
-        className="fixed top-4 right-6 z-50 flex min-w-[220px] items-center gap-3 rounded-2xl px-5 py-3 shadow-2xl"
+        className="fixed top-4 right-6 z-50 flex min-w-55 items-center gap-3 rounded-2xl px-5 py-3 shadow-2xl"
         style={{
           background:
             type === "success"
@@ -419,7 +419,7 @@ function AddComponentForm() {
                 : { y: -1, boxShadow: "0 14px 28px rgba(59,232,255,0.14)" }
             }
             whileTap={{ scale: 0.95 }}
-            className="inline-flex min-w-[168px] items-center justify-center gap-2.5 rounded-2xl px-5 py-3 text-sm font-semibold tracking-[0.02em] transition-all disabled:cursor-not-allowed disabled:opacity-80"
+            className="inline-flex min-w-42 items-center justify-center gap-2.5 rounded-2xl px-5 py-3 text-sm font-semibold tracking-[0.02em] transition-all disabled:cursor-not-allowed disabled:opacity-80"
             style={{
               background: savedId
                 ? "rgba(16, 185, 129, 0.16)"
