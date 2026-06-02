@@ -21,7 +21,11 @@ import {
   TbComponents,
 } from "react-icons/tb";
 import { ServerUrl } from "../App.jsx";
-import { setUserData } from "../redux/userSlice.js";
+import {
+  setAllComponents,
+  setAllUsers,
+  setUserData,
+} from "../redux/userSlice.js";
 import { useNavigate } from "react-router-dom";
 
 const features = [
@@ -111,6 +115,8 @@ function Home() {
         withCredentials: true,
       });
       dispatch(setUserData(null));
+      dispatch(setAllUsers([]));
+      dispatch(setAllComponents([]));
       navigate("/");
     } catch (error) {
       console.log(error);
@@ -610,14 +616,14 @@ function Home() {
                     whileTap={{ scale: 0.92 }}
                     className="flex items-center justify-center gap-2 px-7 py-3.5 border border-white/15 rounded-xl text-sm text-white/60 hover:text-white hover:border-white/25 transition-all cursor-pointer bg-transparent"
                   >
-                    <TbComponents size={15} className="text-[#3be8ff]/70" />{" "}
-                    My Components
+                    <TbComponents size={15} className="text-[#3be8ff]/70" /> My
+                    Components
                   </motion.button>
                 </div>
               </>
             ) : (
               <>
-                <p className="text-white/40 mb-7 sm:mb-8 text-sm max-w-md mz-auto leading-relaxed">
+                <p className="text-white/40 mb-7 sm:mb-8 text-sm max-w-md mx-auto text-center leading-relaxed">
                   Sign in with google and get 150 free AI credits, and start
                   generating production-ready UI components instantly.
                 </p>
