@@ -20,6 +20,7 @@ import { ServerUrl } from "../App";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
+import LiveComponentPreview from "../components/LiveComponentPreview";
 
 function CopyBtn({ text }) {
   const handleCopy = () => {
@@ -120,7 +121,7 @@ function GuidePanel() {
               <span className="text-[#3be8ff]/60 font-bold">02</span>Import
               Component
             </p>
-            <CodeBlock code={`import {ComponentName} from genui-library`} />
+            <CodeBlock code={`import {ComponentName} from "genui-library"`} />
           </div>
 
           <div>
@@ -134,15 +135,174 @@ function GuidePanel() {
           </div>
         </div>
         <p className="text-white/20 text-s">
-          Select a component from thr sidebar to get started
+          Select a component from the sidebar to get started.
         </p>
       </motion.div>
     </div>
   );
 }
 
-function DetailedPanel({ component, onBack }) {
-  return <div>detail</div>;
+function DetailPanel({ component, onBack }) {
+  const [activeTab, setActiveTab] = useState("preview");
+  const importCode = `import { ${component.name} } from "genui-library";`;
+  const usageCode = `import { ${component.name} } from "genui-library";\n\nexport default function App() {\n  return (\n    <div>\n      <${component.name}${
+    component.props?.length
+      ? `\n        ${component.props.map((p) => `${p}={/* value */}`).join("\n        ")}`
+      : ""
+  } />\n    </div>\n  );\n}`;
+
+  return (
+    <motion.div
+      key={component._id}
+      initial={{ opacity: 0, x: 12 }}
+      animate={{ opacity: 1, x: 0 }}
+      transition={{ duration: 0.4 }}
+      className="flex flex-col h-full"
+    >
+      {/* header */}
+
+      <div className="flex items-start sm:items-center justify-between px-4 sm:px-6 py-4 sm:py-5 border-b border-white/6 gap-3 flex-wrap">
+        <div className="flex items-center gap-3 min-w-4">
+          {onBack && (
+            <button
+              onClick={onBack}
+              className="sm:hidden flex items-center justify-center w-8 h-8 rounded-xl bg-white/5 border border-white/8 text-white/50 hover:text-white/80 transition-colors cursor-pointer shrink-0"
+            >
+              <TbX size={15} />
+            </button>
+          )}
+
+          <div className="min-w-0">
+            <h2 className="text-sm sm:text-base font-bold text-white truncate">
+              {component.name}
+            </h2>
+            <p className="text-white/35 text-[11px] sm:text-xs mt-0.5 truncate">
+              {component.props?.length > 0
+                ? `Props: ${component.props.join(", ")}`
+                : "No props"}
+            </p>
+          </div>
+        </div>
+
+        <div
+          className="flex gap-1 rounded-xl p-1 overflow-x-auto shrink-0"
+          style={{ background: "rgba(0, 0, 0, 0.3)" }}
+        >
+          {[
+            { id: "preview", icon: TbEye, label: "Preview" },
+            { id: "code", icon: TbCode, label: "Code" },
+            { id: "guide", icon: TbBox, label: "Guide" },
+          ].map(({ id, icon: Icon, label }) => (
+            <button
+              onClick={() => setActiveTab(id)}
+              key={label}
+              className="flex items-center gap-1 sm:gap-1.5 px-2.5 sm:px-3 py-1.5 rounded-lg text-[11px] sm:text-xs font-medium transition-all capitalize cursor-pointer border-none whitespace-nowrap"
+              style={{
+                background:
+                  activeTab === id ? "rgba(59,232,255,0.15)" : "transparent",
+                color: activeTab === id ? "#3be8ff" : "rgba(255,255,255,0.35)",
+              }}
+            >
+              <Icon size={13} />
+              {label}
+            </button>
+          ))}
+        </div>
+      </div>
+
+      <div className="flex-1 overflow-y-auto p-4 sm:p-6">
+        <AnimatePresence>
+          {activeTab === "preview" && (
+            <motion.div
+              key="preview"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+            >
+              <LiveComponentPreview code={component.code} />
+            </motion.div>
+          )}
+
+          {activeTab === "code" && (
+            <motion.div
+              key="code"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+            >
+              <CodeBlock code={component.code} lang="jsx" />
+            </motion.div>
+          )}
+
+          {activeTab === "guide" && (
+            <motion.div
+              key="guide"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              className="space-y-5"
+            >
+              {component.props.length > 0 && (
+                <div>
+                  <p className="text-xs font-semibold text-white/50 mb-3 flex items-center gap-2">
+                    <TbBox size={13} /> Props
+                  </p>
+                  <div className="rounded-xl overflow-hidden border border-white/6">
+                    <table className="w-full text-xs">
+                      <thead>
+                        <tr className="border-b border-white/5 bg-white/2">
+                          <th className="text-left px-4 py-2.5 text-white/35 font-medium">
+                            Name
+                          </th>
+                          <th className="text-left px-4 py-2.5 text-white/35 font-medium">
+                            Type
+                          </th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {component.props.map((p, i) => (
+                          <tr
+                            key={i}
+                            className="border-white/4 border-b last:border-0"
+                          >
+                            <td className="px-4 py-2.5 font-mono text-[#3be8ff]/70">
+                              {p}
+                            </td>
+                            <td className="px-4 py-2.5 text-white/30">any</td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              )}
+
+              <div>
+                <p className="text-xs font-semibold text-white/50 mb-3 flex items-center gap-2">
+                  <TbBrandNpm size={15} /> Install
+                </p>
+                <CodeBlock code={`npm install genui-library`} />
+              </div>
+
+              <div>
+                <p className="text-xs font-semibold text-white/50 mb-3 flex items-center gap-2">
+                  <TbCode size={15} /> Import
+                </p>
+                <CodeBlock code={importCode} />
+              </div>
+
+              <div>
+                <p className="text-xs font-semibold text-white/50 mb-3 flex items-center gap-2">
+                  <HiSparkles size={15} /> How to use in App.jsx
+                </p>
+                <CodeBlock code={usageCode} />
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </div>
+    </motion.div>
+  );
 }
 
 function SidebarCompnent({
@@ -314,7 +474,7 @@ function AllComponents() {
 
         <main className="flex-1 overflow-auto bg-[#030b0d] min-w-0">
           {selected ? (
-            <DetailedPanel
+            <DetailPanel
               component={selected}
               onBack={() => setSelected(null)}
             />
