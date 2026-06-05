@@ -2,6 +2,10 @@ import React from "react";
 import { AnimatePresence, motion } from "motion/react";
 import { useNavigate } from "react-router-dom";
 import { FiZap, FiCheck, FiLock, FiArrowLeft } from "react-icons/fi";
+import axios from "axios";
+import { ServerUrl } from "../App.jsx";
+import { useDispatch } from "react-redux";
+import { setUserData } from "../redux/userSlice.js";
 
 const plans = [
   {
@@ -40,6 +44,56 @@ const plans = [
 
 function Pricing() {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  const handlePayment = async (plan) => {
+    try {
+      const amount = plan.amount;
+
+      const result = await axios.post(
+        ServerUrl + "/api/payment/create",
+        {
+          amount,
+          aiCredits: plan.aiCredits,
+        },
+        {
+          withCredentials: true,
+        },
+      );
+
+      const options = {
+        key: import.meta.env.VITE_RAZORPAY_KEY_ID,
+        amount: result.data.amount,
+        currency: "INR",
+        name: "Gen.UI",
+        description: `${plan.name} - ${plan.credits} Credits`,
+        order_id: result.data.id,
+
+        handler: async function (res) {
+          const verifyPay = await axios.post(
+            ServerUrl + "/api/payment/verify",
+            res,
+            { withCredentials: true },
+          );
+
+          dispatch(setUserData(verifyPay.data.user));
+
+          alert(
+            "Payment Successful 🥳... Everything is 🆗 and AICredits Added to your account.",
+          );
+          navigate("/generate");
+        },
+        theme: {
+          color: "34079C",
+        },
+      };
+
+      const rzp = new window.Razorpay(options);
+      rzp.open();
+    } catch (error) {
+      console.log(error);
+    }
+  };
   return (
     <div
       className="min-h-screen text-white relative overflow-hidden flex flex-col"
@@ -250,6 +304,8 @@ function Pricing() {
               </ul>
 
               <button
+                disabled={plan.disabled}
+                onClick={() => handlePayment(plan)}
                 className="w-full py-3 rounded-xl text-sm font-semibold transition-all"
                 style={{
                   cursor: plan.disabled ? "not-allowed" : "pointer",
