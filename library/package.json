@@ -1,6 +1,6 @@
 {
   "name": "genui-library",
-  "version": "1.0.15",
+  "version": "1.0.34",
   "main": "dist/index.js",
   "module": "dist/index.mjs",
   "files": [
