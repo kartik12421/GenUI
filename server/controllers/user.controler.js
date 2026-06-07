@@ -22,6 +22,18 @@ export const getCurrentUser = async (req, res) => {
 
 export const getAllUsers = async (req, res) => {
   try {
+    if (!req.userId) {
+      return res.status(401).json({ message: "User is not authenticated" });
+    }
+
+    const currentUser = await User.findById(req.userId);
+
+    if (!currentUser || currentUser.role !== "admin") {
+      return res
+        .status(403)
+        .json({ message: "Unauthorized access: only admin can view users" });
+    }
+
     const users = await User.find().sort({ createdAt: -1 });
     if (!users) {
       return res.status(404).json({ message: "users are not found" });

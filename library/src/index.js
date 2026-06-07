@@ -36,3 +36,5 @@ export { UserProfileSettings } from "./components/UserProfileSettings/UserProfil
 export { NotificationCenter } from "./components/NotificationCenter/NotificationCenter.jsx";
 
 export { Button } from "./components/Button/Button.jsx";
+
+export { Footer } from "./components/Footer/Footer.jsx";

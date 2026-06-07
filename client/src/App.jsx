@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { Route, Routes } from "react-router-dom";
+import { Navigate, Route, Routes } from "react-router-dom";
 import Home from "./pages/Home";
 import AdminDashboard from "./pages/Admin";
 import AllComponents from "./pages/AllComponents";
@@ -12,6 +12,22 @@ import Generate from "./pages/Generate";
 import { useState } from "react";
 
 export const ServerUrl = import.meta.env.VITE_BACKEND_URL;
+
+function RequireAdmin({ authChecked, userData, children }) {
+  if (!authChecked) {
+    return (
+      <div className="flex min-h-screen items-center justify-center bg-[#030b0d] text-sm text-white/60">
+        Checking access...
+      </div>
+    );
+  }
+
+  if (userData?.role !== "admin") {
+    return <Navigate to="/" replace />;
+  }
+
+  return children;
+}
 
 function App() {
   const dispatch = useDispatch();
@@ -62,7 +78,12 @@ function App() {
       }
     };
 
-    fetchAllUser()
+    if (userData?.role === "admin") {
+      fetchAllUser();
+    } else {
+      dispatch(setAllUsers([]));
+    }
+
     fetchAllComponents()
 
   }, [userData, dispatch])
@@ -75,7 +96,14 @@ function App() {
       <Routes>
         <Route path="/" element={<Home />}></Route>
         <Route path="/generate" element={<Generate />}></Route>
-        <Route path="/admin" element={<AdminDashboard />}></Route>
+        <Route
+          path="/admin"
+          element={
+            <RequireAdmin authChecked={authChecked} userData={userData}>
+              <AdminDashboard />
+            </RequireAdmin>
+          }
+        ></Route>
         <Route path="/components" element={<AllComponents />}></Route>
         <Route path="/myComponents" element={<MyComponents />}></Route>
         <Route path="/pricing" element={<Pricing />}></Route>
