@@ -7,6 +7,6 @@ export const genToken = async (userId) => {
     });
     return token;
   } catch (error) {
-    console.log(error);
+    throw new Error(`Token generation failed: ${error.message}`);
   }
 };

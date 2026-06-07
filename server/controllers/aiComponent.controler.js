@@ -96,10 +96,9 @@ OUTPUT FORMAT:
 
       parsed = JSON.parse(clean);
     } catch (error) {
-      console.log("AI RESPONSE:", aiResponse);
-
-      return res.status(500).json({
+      return res.status(502).json({
         message: "AI returned invalid JSON",
+        details: error.message,
       });
     }
 

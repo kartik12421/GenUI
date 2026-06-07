@@ -49,6 +49,7 @@ export const saveComponent = async (req, res) => {
 };
 
 export const publishComponent = async (req, res) => {
+  let currentStep = "validating request";
   try {
     const user = await User.findById(req.userId);
 
@@ -91,6 +92,7 @@ export const publishComponent = async (req, res) => {
     }
 
     //write code in it
+    currentStep = "writing component files";
     fs.writeFileSync(componentFile, component.code);
 
     //read file
@@ -104,8 +106,7 @@ export const publishComponent = async (req, res) => {
     }
 
     //clean and build
-    console.log("Cleaning old build...");
-
+    currentStep = "cleaning old build";
     const distPath = path.join(libPath, "dist");
 
     if (fs.existsSync(distPath)) {
@@ -113,24 +114,21 @@ export const publishComponent = async (req, res) => {
     }
 
     //build library
-    console.log("Building library...");
-
+    currentStep = "building library";
     execSync("npm run build", {
       cwd: libPath,
       stdio: "inherit",
     });
 
     //update version
-    console.log("Updating version...");
-
+    currentStep = "updating package version";
     execSync("npm version patch --no-git-tag-version", {
       cwd: libPath,
       stdio: "inherit",
     });
 
     //publish to npm
-    console.log("Publishing to npm...");
-
+    currentStep = "publishing to npm";
     execSync("npm publish --access public", {
       cwd: libPath,
       stdio: "inherit",
@@ -145,7 +143,10 @@ export const publishComponent = async (req, res) => {
       .status(200)
       .json({ message: "Component published successfully." });
   } catch (error) {
-    return res.status(500).json({ message: error.message });
+    return res.status(500).json({
+      message: `Failed while ${currentStep}`,
+      details: error.message,
+    });
   }
 };
 

@@ -217,7 +217,7 @@ function Generate() {
           >
             <FiCpu size={14} className="text-indigo-400" />
             <span className="text-s font-semibold tracking-widest text-indigo-300 uppercase">
-              AI Componenet Studio
+              GenUI Workspace
             </span>
           </div>
           <h2
@@ -239,8 +239,12 @@ function Generate() {
             </span>
           </h2>
           <p className="text-white/40 text-sm md:text-base max-w-md mx-auto">
-            Describe your React Componenet in plane English. Preview, save, and
-            publish - all in one place.
+            Describe your React component in plain English. Generate, preview,
+            save, and publish from one focused workspace.
+          </p>
+          <p className="text-white/25 text-xs md:text-sm max-w-xl mx-auto mt-3 leading-relaxed">
+            Be specific about layout, content, mood, colors, and actions to get
+            stronger results on the first pass.
           </p>
         </motion.div>
 
@@ -338,7 +342,7 @@ function Generate() {
               placeholder={
                 lowCredits
                   ? "Not enough credits to generate..."
-                  : "A glassmorphism pricing card with a toggle for monthly/annual billing..."
+                  : "A sleek pricing section with three plans, a monthly/annual toggle, and a featured middle card..."
               }
               disabled={lowCredits}
               rows={3}
@@ -347,7 +351,8 @@ function Generate() {
           </div>
           <div className="flex items-center justify-between px-4 pb-3">
             <span className="text-xs text-white/30">
-              Ctrl + Enter to generate
+              Try describing layout, style, and interactions. Ctrl + Enter to
+              generate
             </span>
             <motion.button
               onClick={handleGenerate}
@@ -702,6 +707,7 @@ function Generate() {
                         </motion.button>
 
                         <motion.button
+                        onClick={() => navigate("/myComponents")}
                           whileTap={{ scale: 0.97 }}
                           className="flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-medium traansition-all"
                           style={{

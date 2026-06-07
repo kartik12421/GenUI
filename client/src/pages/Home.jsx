@@ -31,56 +31,56 @@ import { useNavigate } from "react-router-dom";
 const features = [
   {
     icon: TbLayout,
-    title: "Prebuilt UI Components",
-    text: "Install VirtualUI and use ready-made, production-grade components instantly.",
+    title: "Production-Ready Components",
+    text: "Start with polished React components built for real products.",
   },
   {
     icon: HiSparkles,
-    title: "AI Component Generator",
-    text: "Describe your UI in plain English and generate React components in seconds.",
+    title: "Prompt-to-UI Generation",
+    text: "Describe your idea in plain English and generate React UI in seconds.",
   },
   {
     icon: TbAdjustments,
-    title: "Customizable Props",
-    text: "Modify component props and preview changes in real-time without rebuilding.",
+    title: "Flexible Props",
+    text: "Adjust props quickly for different screens, states, and use cases.",
   },
   {
     icon: TbCode,
-    title: "Clean JSX Code",
-    text: "Copy production-ready JSX directly into your project — zero boilerplate.",
+    title: "Clean React Code",
+    text: "Copy clean JSX straight into your project.",
   },
   {
     icon: TbBrandNpm,
-    title: "NPM Library",
-    text: "Import VirtualUI components with a simple npm install command.",
+    title: "Reusable UI Library",
+    text: "Browse reusable building blocks for a faster, more consistent workflow.",
   },
   {
     icon: TbPlayerPlay,
-    title: "Live Preview",
-    text: "Instantly preview AI-generated components before exporting your code.",
+    title: "Instant Preview",
+    text: "Preview the result instantly and refine it before you save or ship.",
   },
 ];
 
 const steps = [
   {
     n: "01",
-    title: "Install Library",
-    text: "npm install genui-library to access all prebuilt UI components.",
+    title: "Start with a base",
+    text: "Browse the library for a fast starting point.",
   },
   {
     n: "02",
-    title: "Use Components",
-    text: "Import and customize with props for any design requirement.",
+    title: "Describe your idea",
+    text: "Write what you want in plain English.",
   },
   {
     n: "03",
-    title: "Generate with AI",
-    text: "Describe your UI and let AI build the component for you.",
+    title: "Preview and refine",
+    text: "Review the UI, inspect the code, and iterate quickly.",
   },
   {
     n: "04",
-    title: "Copy & Use",
-    text: "Paste the clean JSX code straight into your project.",
+    title: "Save and ship",
+    text: "Save it for later or move it straight into your codebase.",
   },
 ];
 
@@ -343,7 +343,7 @@ function Home() {
         >
           Build React UI <br />
           <span className="text-transparent bg-clip-text bg-linear-to-r from-[#3be8ff] to-[#0ab5d4]">
-            Faster With AI
+            Powered by AI
           </span>
         </motion.h1>
 
@@ -353,8 +353,8 @@ function Home() {
           transition={{ delay: 0.21, duration: 0.6 }}
           className="text-white/50 text-base sm:text-lg max-w-xl mx-auto leading-relaxed mb-8 sm:mb-10 font-light px-2"
         >
-          Use prebuild GenUI components or generate custom ones with AI. Copy
-          clean JSX directly into your projects in seconds.
+          Explore prebuilt GenUI components or generate custom interfaces with
+          AI, then move clean, reusable JSX straight into your React project.
         </motion.p>
 
         <motion.div
@@ -488,14 +488,19 @@ function Home() {
           className="text-center mb-10 sm:mb-14"
         >
           <p className="text-[10px] font-semibold tracking-[3px] uppercase text-[#3be8ff]/60 mb-3">
-            What's inside
+            Why teams choose GenUI
           </p>
           <h2
             className="text-3xl sm:text-4xl font-bold tracking-tight"
             style={{ fontFamily: "'Syne', sens-serif" }}
           >
-            Everything you need
+            Everything you need to go from idea to interface
           </h2>
+          <p className="mt-4 max-w-2xl mx-auto text-sm sm:text-base text-white/45 leading-relaxed px-3">
+            GenUI gives you a practical mix of reusable components,
+            AI-assisted generation, and clean output you can actually build
+            on.
+          </p>
         </motion.div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -531,14 +536,19 @@ function Home() {
           className="text-center mb-10 sm:mb-14"
         >
           <p className="text-[10px] font-semibold tracking-[3px] uppercase text-[#3be8ff]/60 mb-3">
-            Simple process
+            From prompt to product
           </p>
           <h2
             className="text-3xl sm:text-4xl font-bold tracking-tight"
             style={{ fontFamily: "'Syne', sens-serif" }}
           >
-            how it works
+            How GenUI fits your workflow
           </h2>
+          <p className="mt-4 max-w-2xl mx-auto text-sm sm:text-base text-white/45 leading-relaxed px-3">
+            Start with a library component or a fresh prompt, preview the
+            result, refine the details, and keep moving without breaking your
+            flow.
+          </p>
         </motion.div>
 
         <div className="relative grid grid-cols-2 lg:grid-cols-4 gap-6">
@@ -590,7 +600,7 @@ function Home() {
             >
               Ready to generate
               <br />
-              your new components ?
+              your next components ?
             </h3>
 
             {userData ? (
@@ -699,3 +709,4 @@ function Home() {
 }
 
 export default Home;
+

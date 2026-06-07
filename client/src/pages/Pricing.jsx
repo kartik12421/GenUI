@@ -178,8 +178,7 @@ function Pricing() {
           </h1>
 
           <p className="text-white/35 text-sm max-w-sm mx-auto">
-            Buy a plan according to your need. Credits are used on every
-            component you create.
+            Choose a plan that fits your needs. Credits are used per component.
           </p>
         </motion.div>
 
