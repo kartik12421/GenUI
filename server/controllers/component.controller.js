@@ -135,6 +135,7 @@ export const publishComponent = async (req, res) => {
     });
 
     component.visibility = "public";
+    component.publishedAt = new Date();
     component.npmPackage = `genui-library`;
 
     await component.save();

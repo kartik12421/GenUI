@@ -14,6 +14,7 @@ const componentSchema = new mongoose.Schema(
       enum: ["private", "public"],
       default: "private",
     },
+    publishedAt: Date,
     npmPackage: String,
   },
   { timestamps: true },

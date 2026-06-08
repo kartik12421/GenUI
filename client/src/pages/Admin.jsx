@@ -696,11 +696,12 @@ function Admin() {
   });
 
   const chartData = publicComponents.reduce((result, component) => {
-    if (!component.createdAt) return result;
+    const publishSource = component.publishedAt || component.createdAt;
+    if (!publishSource) return result;
 
-    const createdAt = new Date(component.createdAt);
-    createdAt.setHours(0, 0, 0, 0);
-    const dateKey = createdAt.toISOString().slice(0, 10);
+    const publishedAt = new Date(publishSource);
+    publishedAt.setHours(0, 0, 0, 0);
+    const dateKey = publishedAt.toISOString().slice(0, 10);
 
     result[dateKey] = (result[dateKey] || 0) + 1;
     return result;
@@ -740,6 +741,21 @@ function Admin() {
     };
   });
 
+  const firstGrowthIndex = chartPoints.findIndex((point) => point.components > 0);
+  const renderChartPoints =
+    firstGrowthIndex > 0
+      ? [
+          {
+            ...chartPoints[firstGrowthIndex],
+            x: chartPadding.left,
+            y: chartHeight - chartPadding.bottom,
+            components: 0,
+            isSynthetic: true,
+          },
+          ...chartPoints.slice(firstGrowthIndex),
+        ]
+      : chartPoints;
+
   const getSmoothLinePath = (points) => {
     if (points.length === 0) return "";
     if (points.length === 1) return `M ${points[0].x} ${points[0].y}`;
@@ -756,12 +772,12 @@ function Admin() {
     }, "");
   };
 
-  const linePath = getSmoothLinePath(chartPoints);
+  const linePath = getSmoothLinePath(renderChartPoints);
 
-  const areaPath = chartPoints.length
-    ? `${linePath} L ${chartPoints[chartPoints.length - 1].x} ${
+  const areaPath = renderChartPoints.length
+    ? `${linePath} L ${renderChartPoints[renderChartPoints.length - 1].x} ${
         chartHeight - chartPadding.bottom
-      } L ${chartPoints[0].x} ${chartHeight - chartPadding.bottom} Z`
+      } L ${renderChartPoints[0].x} ${chartHeight - chartPadding.bottom} Z`
     : "";
 
   const SideBarContent = () => (
@@ -935,7 +951,7 @@ function Admin() {
                       Public Components Published
                     </p>
                     <p className="mt-0.5 text-xs text-white/25">
-                      Date-wise breakdown
+                      Daily publish count over the last 30 days
                     </p>
                   </div>
                   <span className="shrink-0 rounded-full border border-[#a78bfa]/12 bg-[#a78bfa]/10 px-2.5 py-1 text-[10px] font-semibold text-[#c5a7ff]">
@@ -1045,15 +1061,6 @@ function Admin() {
                               onMouseEnter={() => setHoveredPoint(point)}
                               onMouseMove={() => setHoveredPoint(point)}
                             />
-                            <text
-                              x={point.x}
-                              y={chartHeight - 10}
-                              textAnchor="middle"
-                              fill="rgba(255,255,255,0.22)"
-                              fontSize="10"
-                            >
-                              {point.date}
-                            </text>
                           </g>
                         ))}
                       </svg>
