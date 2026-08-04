@@ -162,17 +162,17 @@ function Home() {
 
   return (
     <div
-      className="min-h-screen bg-[#030b0d] text-white overflow-x-hidden "
+      className="min-h-screen bg-[#05050a] text-white overflow-x-hidden "
       style={{ fontFamily: "'DM Sans', sans-serif" }}
     >
-      <div className="pointer-events-none fixed inset-0 z-0 bg-[radial-gradient(circle,rgba(59,232,255,0.05)_1px,transparent_1px)] bg-size-[26px_26px]"></div>
-      <div className="pointer-events-none fixed top-0 left-1/2 z-0 h-64 w-[min(700px,100vw)] -translate-x-1/2 bg-[radial-gradient(ellipse,rgba(59,232,255,0.06)_0%,transparent_70%)]"></div>
+      <div className="pointer-events-none fixed inset-0 z-0 bg-[radial-gradient(circle,rgba(139,92,246,0.05)_1px,transparent_1px)] bg-size-[26px_26px]"></div>
+      <div className="pointer-events-none fixed top-0 left-1/2 z-0 h-64 w-[min(700px,100vw)] -translate-x-1/2 bg-[radial-gradient(ellipse,rgba(139,92,246,0.06)_0%,transparent_70%)]"></div>
 
-      <nav className="sticky top-0 z-40 border-b border-white/8 bg-[#030b0d]/85 backdrop-blur-md">
+      <nav className="sticky top-0 z-40 border-b border-white/8 bg-[#05050a]/85 backdrop-blur-md">
         <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-4 sm:px-8 lg:px-10">
           <div className="flex items-center gap-2.5">
-            <div className="flex h-8 w-8 items-center justify-center rounded-xl bg-linear-to-br from-[#3be8ff] to-[#0ab5d4] shadow-[0_0_14px_rgba(59,232,255,0.4)]">
-              <TbCircleLetterGFilled size={15} color="#051c20" />
+            <div className="flex h-8 w-8 items-center justify-center rounded-xl bg-linear-to-br from-[#8B5CF6] to-[#6366F1] shadow-[0_0_14px_rgba(139,92,246,0.4)]">
+              <TbCircleLetterGFilled size={15} color="#ffffff" />
             </div>
             <span
               className="text-lg font-bold tracking-tight"
@@ -196,9 +196,9 @@ function Home() {
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
                   onClick={() => setProfileOpen(!profileOpen)}
-                  className="flex items-center gap-3.5 bg-white/6 border border-white/10 hover:border-[#3be8ff]/30 px-3 py-1 rounded-xl transition-all cursor-pointer"
+                  className="flex items-center gap-3.5 bg-white/6 border border-white/10 hover:border-[#8B5CF6]/30 px-3 py-1 rounded-xl transition-all cursor-pointer"
                 >
-                  <div className="w-7 h-7 rounded-lg bg-linear-to-br from-[#3be8ff] to-[#0ab5d4] flex items-center justify-center text-[#030b0d] text-[11px] font-bold">
+                  <div className="w-7 h-7 rounded-lg bg-linear-to-br from-[#8B5CF6] to-[#6366F1] flex items-center justify-center text-white text-[11px] font-bold">
                     {getLetters(userData.name)}
                   </div>
                   <span className="text-white/80 text-sm font-medium max-w-25 truncate">
@@ -213,7 +213,7 @@ function Home() {
                       animate={{ opacity: 1, y: 0, scale: 1 }}
                       exit={{ opacity: 0, y: 6, scale: 0.96 }}
                       transition={{ duration: 0.18 }}
-                      className="absolute right-0 top-12 w-52 bg-[#0a1a1e] border border-white/9 rounded-2xl shadow-[0_16px_40px_rgba(0,0,0,0.5)] overflow-hidden z-50"
+                      className="absolute right-0 top-12 w-52 bg-[#0b0a16] border border-white/9 rounded-2xl shadow-[0_16px_40px_rgba(0,0,0,0.5)] overflow-hidden z-50"
                     >
                       <div className="px-4 py-3.5 border-b border-white/[0.07]">
                         <p className="text-white/90 font-semibold text-sm truncate">
@@ -232,7 +232,7 @@ function Home() {
                         >
                           <TbComponents
                             size={15}
-                            className="text-[#3be8ff]/70"
+                            className="text-[#a78bfa]/70"
                           />{" "}
                           My Components
                         </button>
@@ -255,7 +255,7 @@ function Home() {
                 whileHover={{ scale: 1.03 }}
                 whileTap={{ scale: 0.95 }}
                 onClick={() => setShowAuth(true)}
-                className="flex items-center gap-2 bg-[#3be8ff] text-[#030b0d] px-4 py-2 rounded-lg text-sm font-semibold cursor-pointer border-none shadow-[0_0_20px_rgba(59,232,255,0.25)] hover:shadow-[0_0_30px_rgba(59,232,255,0.4)] transition-shadow text-nowrap"
+                className="flex items-center gap-2 bg-[#8B5CF6] text-white px-4 py-2 rounded-lg text-sm font-semibold cursor-pointer border-none shadow-[0_0_20px_rgba(139,92,246,0.25)] hover:shadow-[0_0_30px_rgba(139,92,246,0.4)] transition-shadow text-nowrap"
               >
                 <HiSparkles size={14} /> Generate AI Components
               </motion.button>
@@ -277,7 +277,7 @@ function Home() {
             initial={{ opacity: 0, y: -10 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -10 }}
-            className="md:hidden sticky top-16.25 z-30 bg-[#030b0d]/95 backdrop-blur-md border-b border-white/5 px-4 py-4 flex flex-col gap-3"
+            className="md:hidden sticky top-16.25 z-30 bg-[#05050a]/95 backdrop-blur-md border-b border-white/5 px-4 py-4 flex flex-col gap-3"
           >
             <button
               onClick={handleComponentsClick}
@@ -289,7 +289,7 @@ function Home() {
             {userData ? (
               <>
                 <div className="flex items-center gap-2.5 py-2 border-t border-white/[0.07]">
-                  <div className="w-7 h-7 rounded-lg bg-linear-to-br from-[#3be8ff] to-[#0ab5d4] flex items-center justify-center text-[#030b0d] text-[11px] font-bold">
+                  <div className="w-7 h-7 rounded-lg bg-linear-to-br from-[#8B5CF6] to-[#6366F1] flex items-center justify-center text-white text-[11px] font-bold">
                     {getLetters(userData.name)}
                   </div>
                   <span className="text-white/80 text-sm font-medium">
@@ -301,7 +301,7 @@ function Home() {
                   onClick={handleMyComponentsClick}
                   className="flex items-center gap-2 text-sm text-white/60 hover:text-white transition-colors py-1 bg-transparent border-none cursor-pointer text-left"
                 >
-                  <TbComponents size={16} className="text-[#3be8ff]/70" /> My
+                  <TbComponents size={16} className="text-[#a78bfa]/70" /> My
                   Components
                 </button>
 
@@ -328,9 +328,9 @@ function Home() {
           initial={{ opacity: 0, y: 22 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.05, duration: 0.6 }}
-          className="inline-flex items-center gap-2 text-[10px] font-semibold tracking-[2.5px] uppercase text-[#3be8ff]/70 border border-[#3be8ff]/20 bg-[#3be8ff]/5 rounded-full px-4 py-1.5 mb-6 sm:mb-7"
+          className="inline-flex items-center gap-2 text-[10px] font-semibold tracking-[2.5px] uppercase text-[#a78bfa]/70 border border-[#8B5CF6]/20 bg-[#8B5CF6]/5 rounded-full px-4 py-1.5 mb-6 sm:mb-7"
         >
-          <span className="w-1.5 h-1.5 rounded-full bg-[#3be8ff] animate-pulse" />{" "}
+          <span className="w-1.5 h-1.5 rounded-full bg-[#8B5CF6] animate-pulse" />{" "}
           AI powered React UI Library
         </motion.div>
 
@@ -342,7 +342,7 @@ function Home() {
           style={{ fontFamily: "'Syne', sans-serif" }}
         >
           Build React UI <br />
-          <span className="text-transparent bg-clip-text bg-linear-to-r from-[#3be8ff] to-[#0ab5d4]">
+          <span className="text-transparent bg-clip-text bg-linear-to-r from-[#a78bfa] to-[#f472b6]">
             Powered by AI
           </span>
         </motion.h1>
@@ -364,7 +364,7 @@ function Home() {
           className="mb-7 flex flex-col items-center justify-center gap-4 px-3 sm:mb-8"
         >
           <div className="flex w-full max-w-md items-center justify-between gap-3 rounded-2xl border border-white/10 bg-white/4 px-4 py-3.5 font-mono text-[12px] shadow-[0_10px_30px_rgba(0,0,0,0.18)] sm:max-w-fit sm:px-5 sm:py-3 sm:text-sm">
-            <span className="text-[#3be8ff]/60">
+            <span className="text-[#a78bfa]/60">
               <PiCurrencyDollarBold size={15} />
             </span>
             <span className="min-w-0 flex-1 truncate text-left text-white/80">
@@ -372,10 +372,10 @@ function Home() {
             </span>
             <button
               onClick={handleCopy}
-              className="ml-2 shrink-0 cursor-pointer border-none bg-transparent text-white/30 transition-colors hover:text-[#3be8ff]"
+              className="ml-2 shrink-0 cursor-pointer border-none bg-transparent text-white/30 transition-colors hover:text-[#a78bfa]"
             >
               {copied ? (
-                <TbCheck size={15} className="text-[#3be8ff]" />
+                <TbCheck size={15} className="text-[#a78bfa]" />
               ) : (
                 <TbCopy size={15} />
               )}
@@ -392,7 +392,7 @@ function Home() {
               onClick={handleGetStartedClick}
               whileHover={{ y: -2 }}
               whileTap={{ scale: 0.95 }}
-              className="flex items-center justify-center gap-2 px-6 sm:px-7 py-3.5 bg-white text-[#030b0d] rounded-xl font-semibold text-sm cursor-pointer border-none shadow-[0_4px_24px_rgba(255,255,255,0.1)] hover:shadow-[0_6px_32px_rgba(255,255,255,0.18)] transition-shadow w-full sm:w-auto"
+              className="flex items-center justify-center gap-2 px-6 sm:px-7 py-3.5 bg-white text-[#05050a] rounded-xl font-semibold text-sm cursor-pointer border-none shadow-[0_4px_24px_rgba(255,255,255,0.1)] hover:shadow-[0_6px_32px_rgba(255,255,255,0.18)] transition-shadow w-full sm:w-auto"
             >
               Get Started <TbArrowRight size={15} />
             </motion.button>
@@ -401,7 +401,7 @@ function Home() {
               onClick={handleGenerateAiComponentsClick}
               whileHover={{ y: -2 }}
               whileTap={{ scale: 0.95 }}
-              className="flex items-center justify-center gap-2 px-6 sm:px-7 py-3.5 border border-white/15 rounded-xl text-sm text-white/70 hover:text-white hover:border-white/25 transition-all cursor-pointer bg-transparent w-full sm:w-auto"
+              className="flex items-center justify-center gap-2 px-6 sm:px-7 py-3.5 border border-white/15 rounded-xl text-sm text-white/70 hover:text-white hover:border-[#8B5CF6]/30 transition-all cursor-pointer bg-transparent w-full sm:w-auto"
             >
               <HiSparkles size={14} />
               Generate AI Components
@@ -413,7 +413,7 @@ function Home() {
           initial={{ opacity: 0, y: 33 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.07, duration: 0.7 }}
-          className="mt-12 sm:mt-16 mx-auto max-w-2xl bg-[#0a1a1e]/80 border border-white/[0.07] rounded-2xl p-4 sm:p-5 text-left shadow-[0_30px_60px_rgba(0,0,0,0.4)] backdrop-blur-sm overflow-x-auto"
+          className="mt-12 sm:mt-16 mx-auto max-w-2xl bg-[#0b0a16]/80 border border-white/[0.07] rounded-2xl p-4 sm:p-5 text-left shadow-[0_30px_60px_rgba(0,0,0,0.4)] backdrop-blur-sm overflow-x-auto"
         >
           {/* mac style */}
           <div className="flex items-center gap-1.5 mb-4">
@@ -427,16 +427,16 @@ function Home() {
 
           <div className="font-mono text-[11px] sm:text-[12.5px] leading-6 space-y-0.6 min-w-70">
             <p>
-              <span className="text-[#3be8ff]/60">import </span>
+              <span className="text-[#a78bfa]/60">import </span>
               <span className="text-white/80">{"{ Card, Button}"} </span>
-              <span className="text-[#3be8ff]/80">from </span>
+              <span className="text-[#a78bfa]/80">from </span>
               <span className="text-[#aaff80]/70">genui-library</span>
               <span className="text-white/30">;</span>
             </p>
             <p> </p>
 
             <p>
-              <span className="text-[#3be8ff]/60">export default function</span>{" "}
+              <span className="text-[#a78bfa]/60">export default function</span>{" "}
               <span className="text-[#ffd580]/80">App</span>
               <span className="text-white/50">(){" {"}</span>
             </p>
@@ -447,7 +447,7 @@ function Home() {
 
             <p>
               <span className="text-white/30">{"<"}</span>
-              <span className="text-[#3be8ff]/70">Card</span>{" "}
+              <span className="text-[#a78bfa]/70">Card</span>{" "}
               <span className="text-[#aaff80]/60">title</span>{" "}
               <span className="text-white/30">{"="}</span>
               <span className="text-[#aaff80]/70">{'"Dashboard"'}</span>
@@ -456,7 +456,7 @@ function Home() {
 
             <p>
               <span className="text-white/30">{"   <"}</span>
-              <span className="text-[#3be8ff]/70">Button</span>{" "}
+              <span className="text-[#a78bfa]/70">Button</span>{" "}
               <span className="text-[#aaff80]/60">text</span>{" "}
               <span className="text-white/30">{"="}</span>
               <span className="text-[#aaff80]/70">{'"hello"'}</span>
@@ -465,7 +465,7 @@ function Home() {
 
             <p>
               <span className="text-white/30">{"  <"}</span>
-              <span className="text-[#3be8ff]/70">Card</span>
+              <span className="text-[#a78bfa]/70">Card</span>
               <span className="text-white/30">{" />"}</span>
             </p>
 
@@ -487,12 +487,12 @@ function Home() {
           transition={{ duration: 0.57 }}
           className="text-center mb-10 sm:mb-14"
         >
-          <p className="text-[10px] font-semibold tracking-[3px] uppercase text-[#3be8ff]/60 mb-3">
+          <p className="text-[10px] font-semibold tracking-[3px] uppercase text-[#a78bfa]/60 mb-3">
             Why teams choose GenUI
           </p>
           <h2
             className="text-3xl sm:text-4xl font-bold tracking-tight"
-            style={{ fontFamily: "'Syne', sens-serif" }}
+            style={{ fontFamily: "'Syne', sans-serif" }}
           >
             Everything you need to go from idea to interface
           </h2>
@@ -511,10 +511,10 @@ function Home() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: i * 0.07, duration: 0.57 }}
-              className="group p-5 sm:p-6 rounded-2xl border border-white/[0.07] bg-white/2 hover:bg-[#3be8ff]/04 hover:border-[#3be8ff]/20 transition-all duration-300"
+              className="group p-5 sm:p-6 rounded-2xl border border-white/[0.07] bg-white/2 hover:bg-[#8B5CF6]/[0.04] hover:border-[#8B5CF6]/20 transition-all duration-300"
             >
-              <div className="w-10 h-10 rounded-xl bg-[#3be8ff]/8 border border-[#3be8ff]/15 flex items-center justify-center mb-4 group-hover:bg-[#3be8ff]/15 transition-colors">
-                <items.icon size={18} className="text-[#3be8ff]" />
+              <div className="w-10 h-10 rounded-xl bg-[#8B5CF6]/8 border border-[#8B5CF6]/15 flex items-center justify-center mb-4 group-hover:bg-[#8B5CF6]/15 transition-colors">
+                <items.icon size={18} className="text-[#a78bfa]" />
               </div>
               <h3 className="font-semibold text-white/90 text-[15px]">
                 {items.title}
@@ -535,12 +535,12 @@ function Home() {
           transition={{ duration: 0.57 }}
           className="text-center mb-10 sm:mb-14"
         >
-          <p className="text-[10px] font-semibold tracking-[3px] uppercase text-[#3be8ff]/60 mb-3">
+          <p className="text-[10px] font-semibold tracking-[3px] uppercase text-[#a78bfa]/60 mb-3">
             From prompt to product
           </p>
           <h2
             className="text-3xl sm:text-4xl font-bold tracking-tight"
-            style={{ fontFamily: "'Syne', sens-serif" }}
+            style={{ fontFamily: "'Syne', sans-serif" }}
           >
             How GenUI fits your workflow
           </h2>
@@ -552,7 +552,7 @@ function Home() {
         </motion.div>
 
         <div className="relative grid grid-cols-2 lg:grid-cols-4 gap-6">
-          <div className="hidden lg:block absolute top-8 left-[12.5%] right-[12.5%] h-px bg-linear-to-r from-transparent via-[#3be8ff]/20 to-transparent" />
+          <div className="hidden lg:block absolute top-8 left-[12.5%] right-[12.5%] h-px bg-linear-to-r from-transparent via-[#8B5CF6]/20 to-transparent" />
 
           {steps.map((items, i) => (
             <motion.div
@@ -563,8 +563,8 @@ function Home() {
               viewport={{ once: true }}
               transition={{ delay: i * 0.16, duration: 0.57 }}
             >
-              <div className="relative w-14 h-14 sm:w-16 sm:h-16 mx-auto mb-4 sm:mb-5 rounded-2xl bg-linear-to-br from-[#0e2528] to-[#071518] border border-[#3be8ff]/20 flex items-center justify-center overflow-hidden group-hover:border-[#3be8ff]/40 group-hover:shadow-[0_0_20px_rgba(59,232,255,0.1)] transition-all duration-300">
-                <span className="absolute text-l sm:text-3xl text-[#3be8ff]/60 font-black tracking-tighter select-none">
+              <div className="relative w-14 h-14 sm:w-16 sm:h-16 mx-auto mb-4 sm:mb-5 rounded-2xl bg-linear-to-br from-[#16142a] to-[#0e0d1b] border border-[#8B5CF6]/20 flex items-center justify-center overflow-hidden group-hover:border-[#8B5CF6]/40 group-hover:shadow-[0_0_20px_rgba(139,92,246,0.1)] transition-all duration-300">
+                <span className="absolute text-l sm:text-3xl text-[#a78bfa]/60 font-black tracking-tighter select-none">
                   {items.n}
                 </span>
               </div>
@@ -586,17 +586,17 @@ function Home() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.63 }}
-          className="relative rounded-2xl sm:rounded-3xl border border-[#3be8ff]/15 bg-linear-to-br from-[#071518] to-[#040f12] p-8 sm:p-14 text-center overflow-hidden"
+          className="relative rounded-2xl sm:rounded-3xl border border-[#8B5CF6]/15 bg-linear-to-br from-[#0e0d1b] to-[#05050a] p-8 sm:p-14 text-center overflow-hidden"
         >
-          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_50%_0%,rgba(59,232,255,0.08)_0%,transparent_60%)] pointer-events-none" />
+          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_50%_0%,rgba(139,92,246,0.08)_0%,transparent_60%)] pointer-events-none" />
 
           <div className="relative z-10">
-            <p className="text-[10px] font-semibold tracking-[3px] uppercase text-[#3be8ff]/60 mb-3 sm:mb-4">
+            <p className="text-[10px] font-semibold tracking-[3px] uppercase text-[#a78bfa]/60 mb-3 sm:mb-4">
               Start building
             </p>
             <h3
               className="text-3xl sm:text-4xl font-bold tracking-tight mb-3 sm:mb-4"
-              style={{ fontFamily: "'Syne', sens-serif" }}
+              style={{ fontFamily: "'Syne', sans-serif" }}
             >
               Ready to generate
               <br />
@@ -607,7 +607,7 @@ function Home() {
               <>
                 <p className="text-white/40 mb-7 sm:mb-8 text-sm max-w-md mx-auto leading-relaxed">
                   Welcome back,{" "}
-                  <span className="text-[#3be8ff]/70">{userData.name}</span>!
+                  <span className="text-[#a78bfa]/70">{userData.name}</span>!
                   Continue building amazing components.
                 </p>
                 <div className="flex flex-col sm:flex-row justify-center gap-4">
@@ -615,7 +615,7 @@ function Home() {
                     onClick={() => navigate("/generate")}
                     whileHover={{ y: -2, scale: 1.05 }}
                     whileTap={{ scale: 0.92 }}
-                    className="flex items-center justify-center gap-2 bg-[#3be8ff] text-[#030b0d] px-7 py-3.5 rounded-xl font-semibold text-sm cursor-pointer border-none shadow-[0_0_30px_rgba(59,232,255,0.3)] hover:shadow-[0_0_40px_rgba(59,232,255,0.45)] transition-shadow"
+                    className="flex items-center justify-center gap-2 bg-[#8B5CF6] text-white px-7 py-3.5 rounded-xl font-semibold text-sm cursor-pointer border-none shadow-[0_0_30px_rgba(139,92,246,0.3)] hover:shadow-[0_0_40px_rgba(139,92,246,0.45)] transition-shadow"
                   >
                     <HiSparkles size={14} />
                     Generate AI Components
@@ -626,7 +626,7 @@ function Home() {
                     whileTap={{ scale: 0.92 }}
                     className="flex items-center justify-center gap-2 px-7 py-3.5 border border-white/15 rounded-xl text-sm text-white/60 hover:text-white hover:border-white/25 transition-all cursor-pointer bg-transparent"
                   >
-                    <TbComponents size={15} className="text-[#3be8ff]/70" /> My
+                    <TbComponents size={15} className="text-[#a78bfa]/70" /> My
                     Components
                   </motion.button>
                 </div>
@@ -643,7 +643,7 @@ function Home() {
                     onClick={() => setShowAuth(true)}
                     whileHover={{ y: -2, scale: 1.05 }}
                     whileTap={{ scale: 0.92 }}
-                    className="flex items-center justify-center gap-2 bg-[#3be8ff] text-[#030b0d] px-7 py-3.5 rounded-xl font-semibold text-sm cursor-pointer border-none shadow-[0_0_30px_rgba(59,232,255,0.3)] hover:shadow-[0_0_40px_rgba(59,232,255,0.45)] transition-shadow"
+                    className="flex items-center justify-center gap-2 bg-[#8B5CF6] text-white px-7 py-3.5 rounded-xl font-semibold text-sm cursor-pointer border-none shadow-[0_0_30px_rgba(139,92,246,0.3)] hover:shadow-[0_0_40px_rgba(139,92,246,0.45)] transition-shadow"
                   >
                     <HiSparkles size={14} />
                     Get started for free
@@ -654,7 +654,7 @@ function Home() {
                     whileTap={{ scale: 0.92 }}
                     className="flex items-center justify-center gap-2 px-7 py-3.5 border border-white/15 rounded-xl text-sm text-white/60 hover:text-white hover:border-white/25 transition-all cursor-pointer bg-transparent"
                   >
-                    <TbComponents size={15} className="text-[#3be8ff]/70" />{" "}
+                    <TbComponents size={15} className="text-[#a78bfa]/70" />{" "}
                     Components
                   </motion.button>
                 </div>
@@ -668,8 +668,8 @@ function Home() {
         <div className="max-w-6xl mx-auto px-4 sm:px-6 flex flex-col sm:flex-row items-center justify-between gap-4 sm:gap-0">
           <div className="flex items-center gap-2.5">
             <div className="flex items-center gap-2.5">
-              <div className="flex h-8 w-8 items-center justify-center rounded-xl bg-linear-to-br from-[#3be8ff] to-[#0ab5d4] shadow-[0_0_14px_rgba(59,232,255,0.4)]">
-                <TbCircleLetterGFilled size={15} color="#051c20" />
+              <div className="flex h-8 w-8 items-center justify-center rounded-xl bg-linear-to-br from-[#8B5CF6] to-[#6366F1] shadow-[0_0_14px_rgba(139,92,246,0.4)]">
+                <TbCircleLetterGFilled size={15} color="#ffffff" />
               </div>
               <span
                 className="text-lg font-bold tracking-tight"

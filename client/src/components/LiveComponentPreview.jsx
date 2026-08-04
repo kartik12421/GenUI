@@ -42,9 +42,9 @@ const LiveComponentPreview = ({ code }) => {
           position: "absolute",
           right: "8px",
           top: "8px",
-          background: "#1e293b",
-          border: "none",
-          color: "#94a3b8",
+          background: "rgba(139, 92, 246, 0.15)",
+          border: "1px solid rgba(139, 92, 246, 0.3)",
+          color: "#c084fc",
           padding: "6px",
           borderRadius: "8px",
           cursor: "pointer",
@@ -71,9 +71,9 @@ const LiveComponentPreview = ({ code }) => {
             // 🔥 Responsive max width
             maxWidth: "100%",
 
-            border: "1px solid #1e293b",
+            border: "1px solid rgba(139, 92, 246, 0.2)",
             borderRadius: "12px",
-            background: "#020617",
+            background: "#0b0a16",
 
             position: "relative",
             overflow: "hidden",
@@ -98,8 +98,8 @@ const LiveComponentPreview = ({ code }) => {
           style={{
             marginTop: "10px",
             padding: "10px",
-            background: "#450a0a",
-            color: "#f87171",
+            background: "#3b0712",
+            color: "#fca5a5",
             borderRadius: "6px",
             fontSize: "clamp(12px, 1.5vw, 14px)",
             overflowX: "auto",
@@ -113,10 +113,11 @@ const LiveComponentPreview = ({ code }) => {
             style={{
               marginTop: "10px",
               padding: "10px",
-              background: "#1e293b",
+              background: "rgba(139, 92, 246, 0.08)",
               borderRadius: "6px",
-              color: "#94a3b8",
+              color: "#a78bfa",
               fontSize: "clamp(12px, 1.5vw, 14px)",
+              border: "1px solid rgba(139, 92, 246, 0.15)",
             }}
           >
             Preview is not available. Copy the code and paste it into your

@@ -38,3 +38,5 @@ export { NotificationCenter } from "./components/NotificationCenter/Notification
 export { Button } from "./components/Button/Button.jsx";
 
 export { Footer } from "./components/Footer/Footer.jsx";
+
+export { Sidebar } from "./components/Sidebar/Sidebar.jsx";

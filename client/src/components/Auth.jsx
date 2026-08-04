@@ -91,7 +91,7 @@ function Auth({ onClose }) {
           animate={{ opacity: 1, y: 0, scale: 1 }}
           exit={{ opacity: 0, y: 28, scale: 0.96 }}
           transition={{ duration: 0.8 }}
-          className="relative flex max-h-[calc(100vh-24px)] w-full max-w-260 flex-col overflow-y-auto overflow-x-hidden rounded-2xl border border-white/10 bg-[#343434]/90 shadow-[0_40px_100px_rgba(0,0,0,0.85)] sm:max-h-[calc(100vh-32px)] md:min-h-150 md:flex-row"
+          className="relative flex max-h-[calc(100vh-24px)] w-full max-w-260 flex-col overflow-y-auto overflow-x-hidden rounded-2xl border border-white/10 bg-[#0b0a16]/95 shadow-[0_40px_100px_rgba(0,0,0,0.85)] sm:max-h-[calc(100vh-32px)] md:min-h-150 md:flex-row"
         >
           {/* x button */}
           <button
@@ -102,8 +102,8 @@ function Auth({ onClose }) {
           </button>
 
           {/* left div */}
-          <div className="relative w-full overflow-hidden bg-linear-to-br from-[#021719] to-[#04282f] p-5 sm:p-8 md:w-[52%] md:p-12">
-            <div className="pointer-events-none absolute -top-16 -right-16 h-64 w-64 rounded-full bg-[radial-gradient(circle,rgba(59,232,255,0.08)_0%,transparent_70%)]"></div>
+          <div className="relative w-full overflow-hidden bg-linear-to-br from-[#0e0c1f] to-[#05050a] p-5 sm:p-8 md:w-[52%] md:p-12">
+            <div className="pointer-events-none absolute -top-16 -right-16 h-64 w-64 rounded-full bg-[radial-gradient(circle,rgba(139,92,246,0.08)_0%,transparent_70%)]"></div>
 
             <motion.div
               initial={{ opacity: 0, x: -14 }}
@@ -111,8 +111,8 @@ function Auth({ onClose }) {
               transition={{ delay: 0.2 }}
               className="mb-6 flex items-center gap-3 sm:mb-9 sm:gap-4 md:mb-10"
             >
-              <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-linear-to-br from-[#3be8ff] to-[#0ab5d4] shadow-[0_0_18px_rgba(59,232,255,0.35)] sm:h-12 sm:w-12">
-                <TbCircleLetterGFilled size={37} color="#051c20" />
+              <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-linear-to-br from-[#8B5CF6] to-[#6366F1] shadow-[0_0_18px_rgba(139,92,246,0.35)] sm:h-12 sm:w-12">
+                <TbCircleLetterGFilled size={37} color="#ffffff" />
               </div>
               <span
                 className="text-xl font-bold tracking-tight text-white sm:text-2xl"
@@ -122,7 +122,7 @@ function Auth({ onClose }) {
               </span>
             </motion.div>
 
-            <p className="mb-4 text-xs font-semibold tracking-[3px] text-[#3be8ff] uppercase sm:mb-6">
+            <p className="mb-4 text-xs font-semibold tracking-[3px] text-[#a78bfa] uppercase sm:mb-6">
               How it works
             </p>
 
@@ -138,10 +138,10 @@ function Auth({ onClose }) {
                     onMouseEnter={() => setActive(i)}
                     onFocus={() => setActive(i)}
                     onClick={() => setActive(i)}
-                    className={`flex min-w-58 shrink-0 items-start gap-3 rounded-xl border px-3.5 py-3 transition-all duration-300 sm:min-w-62 sm:gap-4 sm:px-4 sm:py-3.5 md:min-w-0 md:shrink ${active === i ? "bg-[#3be8ff]/[0.07] border-[#3be8ff]/20" : "bg-transparent border-transparent"}`}
+                    className={`flex min-w-58 shrink-0 items-start gap-3 rounded-xl border px-3.5 py-3 transition-all duration-300 sm:min-w-62 sm:gap-4 sm:px-4 sm:py-3.5 md:min-w-0 md:shrink ${active === i ? "bg-[#8B5CF6]/[0.07] border-[#8B5CF6]/20" : "bg-transparent border-transparent"}`}
                   >
                     <div
-                      className={`flex h-9 min-w-9 items-center justify-center rounded-lg border transition-all duration-300 ${active === i ? "bg-linear-to-br from-[#3be8ff] to-[#0ab8d6] border-transparent text-[#051c20]" : "bg-[#3be8ff]/8 border-[#3be8ff]/20 text-[#3be8ff]"}`}
+                      className={`flex h-9 min-w-9 items-center justify-center rounded-lg border transition-all duration-300 ${active === i ? "bg-linear-to-br from-[#8B5CF6] to-[#6366F1] border-transparent text-white" : "bg-[#8B5CF6]/8 border-[#8B5CF6]/20 text-[#a78bfa]"}`}
                     >
                       <Icon size={20} />
                     </div>
@@ -164,9 +164,9 @@ function Auth({ onClose }) {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.2, duration: 0.5 }}
-            className="relative flex w-full flex-col items-center justify-center overflow-hidden bg-[#040f12] px-5 py-8 sm:px-8 sm:py-10 md:w-[48%] md:px-12 md:py-14"
+            className="relative flex w-full flex-col items-center justify-center overflow-hidden bg-[#05050a] px-5 py-8 sm:px-8 sm:py-10 md:w-[48%] md:px-12 md:py-14"
           >
-            <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(rgba(59,232,255,0.025)_1px,transparent_1px),linear-gradient(90deg,rgba(59,232,255,0.025)_1px,transparent_1px)] bg-size-[32px_32px]"></div>
+            <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(rgba(139,92,246,0.025)_1px,transparent_1px),linear-gradient(90deg,rgba(139,92,246,0.025)_1px,transparent_1px)] bg-size-[32px_32px]"></div>
             <div className="relative z-10 w-full max-w-82 text-center mx-auto">
               <motion.div
                 animate={{ y: [0, -10, 0] }}
@@ -175,12 +175,12 @@ function Auth({ onClose }) {
                   repeat: Infinity,
                   ease: easeInOut,
                 }}
-                className="relative mx-auto mb-5 h-14 w-14 rounded-2xl border border-[#3be8ff]/20 bg-linear-to-br from-[#3be8ff]/15 to-[#040f12] sm:mb-7 sm:h-18 sm:w-18"
+                className="relative mx-auto mb-5 h-14 w-14 rounded-2xl border border-[#8B5CF6]/20 bg-linear-to-br from-[#8B5CF6]/15 to-[#05050a] sm:mb-7 sm:h-18 sm:w-18"
               >
                 <TbCircleLetterGFilled
                   className="absolute left-1/2 top-1/2 block -translate-x-1/2 -translate-y-1/2"
                   size={36}
-                  color="#3be8ff"
+                  color="#a78bfa"
                 />
               </motion.div>
               <h3
@@ -189,15 +189,15 @@ function Auth({ onClose }) {
               >
                 welcome
               </h3>
-              <p className="mb-5 text-base leading-relaxed text-[#96bec8]/55 sm:mb-7 sm:text-[20px]">
+              <p className="mb-5 text-base leading-relaxed text-white/40 sm:mb-7 sm:text-[20px]">
                 Sign in to generate your AI powered components in seconds
               </p>
 
               <div className="mb-7 flex justify-center gap-3 sm:mb-10 sm:gap-5">
                 {stats.map(([v, l], i) => (
                   <div key={i} className="text-center">
-                    <div className="text-lg font-bold text-[#3be8ff]">{v}</div>
-                    <div className="text-[11px] text-[#9fd3dc]/70 uppercase tracking-wider font-medium">
+                    <div className="text-lg font-bold text-[#a78bfa]">{v}</div>
+                    <div className="text-[11px] text-white/40 uppercase tracking-wider font-medium">
                       {l}
                     </div>
                   </div>
@@ -210,11 +210,11 @@ function Auth({ onClose }) {
                   ].map(([v, l], i) => {
                     return (
                       <div key={i} className="text-center">
-                        <div className="text-base font-bold text-[#3be8ff]">
+                        <div className="text-base font-bold text-[#a78bfa]">
                           {v}
                         </div>
 
-                        <div className="text-[19px] text-[#78aab4]/45 uppercase tracking-wider font-medium">
+                        <div className="text-[19px] text-white/30 uppercase tracking-wider font-medium">
                           {l}
                         </div>
                       </div>
@@ -226,16 +226,16 @@ function Auth({ onClose }) {
                 onClick={googleAuth}
                 whileHover={{ y: -2, scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
-                className="flex w-full cursor-pointer items-center justify-center gap-2.5 rounded-xl border-none bg-white py-3 text-base font-bold text-[#0a1a1d] shadow-[0_4px_20px_rgba(0,0,0,0.3)] transition-shadow hover:shadow-[0_12px_40px_rgba(59,232,255,0.2)] sm:py-3.5 sm:text-xl"
+                className="flex w-full cursor-pointer items-center justify-center gap-2.5 rounded-xl border-none bg-white py-3 text-base font-bold text-[#0a1a1d] shadow-[0_4px_20px_rgba(0,0,0,0.3)] transition-shadow hover:shadow-[0_12px_40px_rgba(139,92,246,0.2)] sm:py-3.5 sm:text-xl"
               >
                 <FcGoogle size={33} /> Continue with Google
               </motion.button>
 
-              <p className="mt-5 text-sm text-[#64919b]/89 sm:mt-4 sm:text-[17px]">
+              <p className="mt-5 text-sm text-white/40 sm:mt-4 sm:text-[17px]">
                 No accounts needed for npm.{" "}
                 <span
                   onClick={onClose}
-                  className="text-[#3be8ff] border-b border-[#3be8ff]/20 cursor-pointer hover:text-[#3be8ff]/80 transition-colors"
+                  className="text-[#a78bfa] border-b border-[#a78bfa]/20 cursor-pointer hover:text-[#a78bfa]/80 transition-colors"
                 >
                   View Docx...
                 </span>{" "}

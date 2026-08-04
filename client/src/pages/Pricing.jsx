@@ -84,7 +84,7 @@ function Pricing() {
           navigate("/generate");
         },
         theme: {
-          color: "34079C",
+          color: "8B5CF6",
         },
       };
 
@@ -99,7 +99,7 @@ function Pricing() {
       className="min-h-screen text-white relative overflow-hidden flex flex-col"
       style={{
         background:
-          "linear-gradient(135deg, #0a0a1a 0%, #0d0d28 60%, #0a1628 100%)",
+          "linear-gradient(135deg, #05050a 0%, #0d0c1d 60%, #05050a 100%)",
         fontFamily: "'DM Sans', sans-serif",
       }}
     >
@@ -107,7 +107,7 @@ function Pricing() {
         className="absolute inset-0 pointer-events-none opacity-[0.07]"
         style={{
           backgroundImage:
-            "linear-gradient(rgba(99,102,241,0.5) 1px, transparent 1px), linear-gradient(90deg, rgba(99,102,241,0.5) 1px, transparent 1px)",
+            "linear-gradient(rgba(139,92,246,0.5) 1px, transparent 1px), linear-gradient(90deg, rgba(139,92,246,0.5) 1px, transparent 1px)",
           backgroundSize: "44px 44px",
         }}
       />
@@ -116,7 +116,7 @@ function Pricing() {
       <div
         className="absolute top-[-8%] left-[10%] w-80 h-80 rounded-full pointer-events-none opacity-20"
         style={{
-          background: "radial-gradient(circle, #6366f1 0%, transparent 70%)",
+          background: "radial-gradient(circle, #8B5CF6 0%, transparent 70%)",
           filter: "blur(70px)",
         }}
       />
@@ -124,7 +124,7 @@ function Pricing() {
       <div
         className="absolute bottom-[-6%] right-[5%] w-72 h-72 rounded-full pointer-events-none opacity-15"
         style={{
-          background: "radial-gradient(circle, #06b6d4 0%, transparent 70%)",
+          background: "radial-gradient(circle, #EC4899 0%, transparent 70%)",
           filter: "blur(60px)",
         }}
       />
@@ -148,12 +148,12 @@ function Pricing() {
           <div
             className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full mb-5"
             style={{
-              background: "rgba(99,102,241,0.12)",
-              border: "1px solid rgba(99,102,241,0.25)",
+              background: "rgba(139,92,246,0.12)",
+              border: "1px solid rgba(139,92,246,0.25)",
             }}
           >
-            <FiZap size={15} className="text-indigo-400" />
-            <span className="text-xs font-semibold tracking-widest text-indigo-300 uppercase">
+            <FiZap size={15} className="text-purple-400" />
+            <span className="text-xs font-semibold tracking-widest text-purple-300 uppercase">
               AI Credits
             </span>
           </div>
@@ -168,7 +168,7 @@ function Pricing() {
             Credits{" "}
             <span
               style={{
-                background: "linear-gradient(135deg, #818cf8 0%, #06b6d4 100%)",
+                background: "linear-gradient(135deg, #a78bfa 0%, #ec4899 100%)",
                 WebkitBackgroundClip: "text",
                 WebkitTextFillColor: "transparent",
               }}
@@ -189,13 +189,13 @@ function Pricing() {
               className="relative rounded-2xl p-6 flex flex-col"
               style={{
                 background: plan.highlight
-                  ? "linear-gradient(145deg, rgba(99,102,241,0.12) 0%, rgba(6,182,212,0.06) 100%)"
+                  ? "linear-gradient(145deg, rgba(139,92,246,0.12) 0%, rgba(236,72,153,0.06) 100%)"
                   : "rgba(255,255,255,0.03)",
                 border: plan.highlight
-                  ? "1px solid rgba(99,102,241,0.35)"
+                  ? "1px solid rgba(139,92,246,0.35)"
                   : "1px solid rgba(255,255,255,0.07)",
                 boxShadow: plan.highlight
-                  ? "0 0 40px rgba(99,102,241,0.12)"
+                  ? "0 0 40px rgba(139,92,246,0.12)"
                   : "none",
               }}
             >
@@ -205,11 +205,11 @@ function Pricing() {
                   className="text-xs font-semibold px-2.5 py-1 rounded-full"
                   style={{
                     background: plan.highlight
-                      ? "rgba(99,102,241,0.2)"
+                      ? "rgba(139,92,246,0.2)"
                       : "rgba(255,255,255,0.06)",
-                    color: plan.highlight ? "#818cf8" : "rgba(255,255,255,0.4)",
+                    color: plan.highlight ? "#a78bfa" : "rgba(255,255,255,0.4)",
                     border: plan.highlight
-                      ? "1px solid rgba(99,102,241,0.3)"
+                      ? "1px solid rgba(139,92,246,0.3)"
                       : "1px solid rgba(255,255,255,0.08)",
                   }}
                 >
@@ -255,10 +255,10 @@ function Pricing() {
                   className="inline-flex items-center gap-1.5 mt-2 px-2.5 py-1 rounded-lg"
                   style={{
                     background: plan.highlight
-                      ? "rgba(6,182,212,0.1)"
+                      ? "rgba(236,72,153,0.1)"
                       : "rgba(255,255,255,0.05)",
                     border: plan.highlight
-                      ? "1px solid rgba(6,182,212,0.2)"
+                      ? "1px solid rgba(236,72,153,0.2)"
                       : "1px solid rgba(255,255,255,0.07)",
                   }}
                 >
@@ -266,7 +266,7 @@ function Pricing() {
                     size={11}
                     style={{
                       color: plan.highlight
-                        ? "#06b6d4"
+                        ? "#ec4899"
                         : "rgba(255,255,255,0.4)",
                     }}
                   />
@@ -274,7 +274,7 @@ function Pricing() {
                     className="text-xs font-semibold"
                     style={{
                       color: plan.highlight
-                        ? "#06b6d4"
+                        ? "#ec4899"
                         : "rgba(255, 255, 255, 0.4)",
                     }}
                   >
@@ -293,7 +293,7 @@ function Pricing() {
                       size={15}
                       style={{
                         color: plan.highlight
-                          ? "#818cf8"
+                          ? "#a78bfa"
                           : "rgba(255, 255, 255, 0.3)",
                       }}
                     />
@@ -310,14 +310,14 @@ function Pricing() {
                   cursor: plan.disabled ? "not-allowed" : "pointer",
                   background: plan.disabled
                     ? "rgba(255,255,255,0.04)"
-                    : "linear-gradient(135deg, #6366f1 0%, #4f46e5 100%)",
+                    : "linear-gradient(135deg, #8B5CF6 0%, #6366F1 100%)",
                   color: plan.disabled ? "rgba(255,255,255,0.25)" : "#fff",
                   border: plan.disabled
                     ? "1px solid rgba(255,255,255,0.07)"
                     : "none",
                   boxShadow: plan.disabled
                     ? "none"
-                    : "0 0 24px rgba(99,102,241,0.35)",
+                    : "0 0 24px rgba(139,92,246,0.35)",
                 }}
               >
                 {plan.disabled ? (
